@@ -30,4 +30,6 @@ public:
 	Coordinates getPosition();
 
 	ofRectangle getRect();
+
+
 };

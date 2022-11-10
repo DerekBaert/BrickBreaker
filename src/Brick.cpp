@@ -64,4 +64,11 @@ bool Brick::destroyed()
 	return mHit;
 }
 
+void Brick::reset()
+{
+	mHit = false;
+}
+
+
+
 

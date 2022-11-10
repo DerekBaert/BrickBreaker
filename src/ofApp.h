@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "Ball.h"
 #include "Brick.h"
 #include "ofMain.h"
@@ -15,6 +16,7 @@ class ofApp : public ofBaseApp
 		void draw();
 
 		void keyPressed(int key);
+		void resetGame();
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
 		void mouseDragged(int x, int y, int button);
@@ -31,8 +33,8 @@ class ofApp : public ofBaseApp
 		std::vector<Brick> bricks{};
 		bool paused;
 		const int OF_KEY_SPACE = 32;
-		float points;
-		float lives;
+		int points;
+		int lives;
 		bool gameOver = false;
 
 		float brickStart;

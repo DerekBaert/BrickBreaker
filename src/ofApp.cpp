@@ -67,9 +67,9 @@ void ofApp::draw()
 	ofFill();
 	ofBackground(0);
 	ofSetColor(255);
-
-	ofDrawBitmapString(points, 10, fifthOfScreen);
-	ofDrawBitmapString(lives, ofGetWidth() - 50, fifthOfScreen);
+	
+	ofDrawBitmapString("Points: " + std::to_string(points), 10, fifthOfScreen);
+	ofDrawBitmapString("Lives: " + std::to_string(lives), ofGetWidth() - 100, fifthOfScreen);
 
 	for(auto brick : bricks)
 	{
@@ -108,12 +108,13 @@ void ofApp::update()
 	for(auto &brick :bricks)
 	{
 		if(!brick.destroyed() && brick.hit(ball.getRect()))
-		{			
-			if(ball.getPosition().y >= brick.getSides()[2] || ball.getPosition().y <= brick.getSides()[3])
+		{
+			auto sides = brick.getSides();
+			if(ball.getPosition().y > sides[2] || ball.getPosition().y < sides[3])
 			{
 				ball.reverseY();
 			}
-			else if (ball.getPosition().x >= brick.getSides()[0] || ball.getPosition().x <= brick.getSides()[1])
+			else if (ball.getPosition().x > sides[0] || ball.getPosition().x < sides[1])
 			{
 				ball.reverseX();
 			}
@@ -131,10 +132,10 @@ void ofApp::update()
 
 	if(ball.hitBottom())
 	{
-		lives--;
 		if(lives > 0)
 		{
 			ball.reset();
+			lives--;
 		}
 		else
 		{
@@ -166,11 +167,20 @@ void ofApp::keyPressed(int key)
 	{
 		if(gameOver)
 		{
-			points = 0;
-			lives = 3;
+			resetGame();
 		}
 		paused = !paused;
 	}
+}
+
+void ofApp::resetGame()
+{
+	for(auto &brick : bricks)
+	{
+		brick.reset();
+	}
+	points = 0;
+	lives = 3;
 }
 
 //--------------------------------------------------------------

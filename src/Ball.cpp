@@ -75,6 +75,7 @@ void Ball::reset()
 {
 	mRectangle.x = mPosition.x;
 	mRectangle.y = mPosition.y;
+	mOffset = { 1,-1 };
 }
 
 /**

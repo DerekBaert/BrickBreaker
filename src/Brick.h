@@ -21,4 +21,5 @@ public:
 	float* getSides();
 	float getPoints();
 	bool destroyed();
+	void reset();
 };
