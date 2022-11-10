@@ -71,6 +71,12 @@ void Ball::hitSide()
 	}
 }
 
+void Ball::reset()
+{
+	mRectangle.x = mPosition.x;
+	mRectangle.y = mPosition.y;
+}
+
 /**
  * \brief Checks if the ball has hit the top of the screen
  * \return True if the ball has hit the top of the screen, false if not.
@@ -95,7 +101,7 @@ bool Ball::hitBottom()
 
 Coordinates Ball::getPosition()
 {
-	return mPosition;
+	return {mRectangle.x, mRectangle.y};
 }
 
 /**

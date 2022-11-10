@@ -16,16 +16,12 @@ public:
 	Ball(float size, Coordinates position);
 
 	void move();
-
 	void increaseSpeed();
-
 	void reverseX();
-
 	void reverseY();
-
 	void draw();
-
 	void hitSide();
+	void reset();
 
 	bool hitTop();
 

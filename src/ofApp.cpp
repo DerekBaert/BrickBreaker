@@ -6,6 +6,7 @@
 void ofApp::setup()
 {
 	paused = false;
+	lives = 3;
 	brickStart = ofGetHeight() / 10;
 	fifthOfScreen = brickStart / 2;
 
@@ -68,6 +69,7 @@ void ofApp::draw()
 	ofSetColor(255);
 
 	ofDrawBitmapString(points, 10, fifthOfScreen);
+	ofDrawBitmapString(lives, ofGetWidth() - 50, fifthOfScreen);
 
 	for(auto brick : bricks)
 	{
@@ -79,8 +81,17 @@ void ofApp::draw()
 
 	if (paused)
 	{
-		ofDrawBitmapString("Pause", ofGetWidth() / 2, ofGetHeight() / 2);
+		if (gameOver)
+		{
+			ofDrawBitmapString("Game over", ofGetWidth() / 2, ofGetHeight() / 2);
+			ofDrawBitmapString("Press Space to continue", ofGetWidth() / 2, ofGetHeight() / 2 + 10);
+		}
+		else
+		{
+			ofDrawBitmapString("Pause", ofGetWidth() / 2, ofGetHeight() / 2);
+		}		
 	}
+
 	
 }
 
@@ -118,7 +129,20 @@ void ofApp::update()
 		ofDrawBitmapString("Hit top", 50, 75);
 	}
 
-	ball.hitBottom();
+	if(ball.hitBottom())
+	{
+		lives--;
+		if(lives > 0)
+		{
+			ball.reset();
+		}
+		else
+		{
+			gameOver = true;
+			paused = true;
+		}
+		
+	}
 
 	if(!paused)
 	{
@@ -140,6 +164,11 @@ void ofApp::keyPressed(int key)
 	}
 	if(key == OF_KEY_SPACE)
 	{
+		if(gameOver)
+		{
+			points = 0;
+			lives = 3;
+		}
 		paused = !paused;
 	}
 }

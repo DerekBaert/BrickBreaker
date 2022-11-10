@@ -32,6 +32,8 @@ class ofApp : public ofBaseApp
 		bool paused;
 		const int OF_KEY_SPACE = 32;
 		float points;
+		float lives;
+		bool gameOver = false;
 
 		float brickStart;
 
