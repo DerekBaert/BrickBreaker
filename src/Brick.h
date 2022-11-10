@@ -18,7 +18,7 @@ public:
 	void draw();
 
 	bool hit(const ofRectangle rect);
-
 	float* getSides();
+	float getPoints();
 	bool destroyed();
 };

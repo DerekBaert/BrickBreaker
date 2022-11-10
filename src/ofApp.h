@@ -31,6 +31,7 @@ class ofApp : public ofBaseApp
 		std::vector<Brick> bricks{};
 		bool paused;
 		const int OF_KEY_SPACE = 32;
+		float points;
 
 		float brickStart;
 

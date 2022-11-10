@@ -67,6 +67,8 @@ void ofApp::draw()
 	ofBackground(0);
 	ofSetColor(255);
 
+	ofDrawBitmapString(points, 10, fifthOfScreen);
+
 	for(auto brick : bricks)
 	{
 		brick.draw();
@@ -104,6 +106,8 @@ void ofApp::update()
 			{
 				ball.reverseX();
 			}
+
+			points += brick.getPoints();
 			break;
 		}
 	}

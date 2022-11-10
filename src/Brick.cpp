@@ -54,6 +54,11 @@ float* Brick::getSides()
 	return sides;
 }
 
+float Brick::getPoints()
+{
+	return mPointValue;
+}
+
 bool Brick::destroyed()
 {
 	return mHit;
