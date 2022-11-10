@@ -29,9 +29,8 @@ class ofApp : public ofBaseApp
 		Ball ball;
 		Paddle paddle;
 		std::vector<Brick> bricks{};
-		//std::vector<Brick> orangeBricks{};
-		//std::vector<Brick> greenBricks{};
-		//std::vector<Brick> yellowBricks{};
+		bool paused;
+		const int OF_KEY_SPACE = 32;
 
 		float brickStart;
 

@@ -5,6 +5,7 @@
 
 void ofApp::setup()
 {
+	paused = false;
 	brickStart = ofGetHeight() / 10;
 	fifthOfScreen = brickStart / 2;
 
@@ -65,13 +66,20 @@ void ofApp::draw()
 	ofFill();
 	ofBackground(0);
 	ofSetColor(255);
-	paddle.draw();
-	ball.draw();
 
 	for(auto brick : bricks)
 	{
 		brick.draw();
 	}
+
+	paddle.draw();
+	ball.draw();
+
+	if (paused)
+	{
+		ofDrawBitmapString("Pause", ofGetWidth() / 2, ofGetHeight() / 2);
+	}
+	
 }
 
 //--------------------------------------------------------------
@@ -107,22 +115,29 @@ void ofApp::update()
 	}
 
 	ball.hitBottom();
-	ball.move();
+
+	if(!paused)
+	{
+		ball.move();
+	}	
 }
 
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-	if(key == OF_KEY_LEFT)
+	if(key == OF_KEY_LEFT && !paused)
 	{
 		paddle.move(-1);
 	}
-	if (key == OF_KEY_RIGHT)
+	if (key == OF_KEY_RIGHT && !paused)
 	{
 		paddle.move(1);
 	}
-
+	if(key == OF_KEY_SPACE)
+	{
+		paused = !paused;
+	}
 }
 
 //--------------------------------------------------------------
