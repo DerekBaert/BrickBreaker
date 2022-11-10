@@ -36,17 +36,39 @@ void Brick::draw()
  * \param rect rectangle to check for intersection
  * \return True if intersection occurs, false if not
  */
-bool Brick::hit(const ofRectangle rect)
+//bool Brick::hit(const ofRectangle rect)
+//{
+//	if(!mHit)
+//	{
+//		//mHit = mRectangle.intersects(rect);
+//		mHit = true;
+//	}
+//	
+//	return mRectangle.intersects(rect);
+//	
+//}
+
+bool Brick::topBottomHit(const ofRectangle rect)
 {
 	if(!mHit)
 	{
-		mHit = mRectangle.intersects(rect);
-
-	}
-	return mRectangle.intersects(rect);
+		mHit = (rect.getTop() == mRectangle.getBottom() || rect.getBottom() == mRectangle.getTop())
+			&& (rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight());
+	}	
+	return (rect.getTop() == mRectangle.getBottom() || rect.getBottom() == mRectangle.getTop())
+		&& (rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight());
 }
 
-
+bool Brick::sideHit(const ofRectangle rect)
+{
+	if(!mHit)
+	{
+		mHit = (rect.getRight() == mRectangle.getLeft() || rect.getLeft() == mRectangle.getRight())
+			&& (rect.getBottom() >= mRectangle.getTop() && rect.getTop() <= mRectangle.getBottom());
+	}	
+	return (rect.getRight() == mRectangle.getLeft() || rect.getLeft() == mRectangle.getRight())
+		&& (rect.getBottom() >= mRectangle.getTop() && rect.getTop() <= mRectangle.getBottom());
+}
 
 ofRectangle Brick::getRect()
 {

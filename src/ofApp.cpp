@@ -107,39 +107,54 @@ void ofApp::update()
 
 	for(auto &brick :bricks)
 	{
-		if(!brick.destroyed() && brick.hit(ball.getRect()))
+
+		if(!brick.destroyed())
 		{
-			//Sides brickSides = brick.getSides();
-			//Sides ballSides = ball.getSides();
 			ofRectangle ballRect = ball.getRect();
-			ofRectangle brickRect = brick.getRect();
+			//ofRectangle brickRect = brick.getRect();
 
-			if(ballRect.getTop() <= brickRect.getBottom() && ballRect.getTop() >= brickRect.getTop())
+			if (brick.topBottomHit(ballRect))
 			{
 				ball.reverseY();
 			}
-			if(ballRect.getBottom() <= brickRect.getTop() && ballRect.getBottom() >= brickRect.getBottom())
-			{
-				ball.reverseY();
-			}
-
-			if ((ballRect.getRight() >= brickRect.getLeft() && ballRect.getRight() <= brickRect.getRight()) 
-				&& (ballRect.getBottom() < brickRect.getTop() + brickRect.height / 2)
-				|| ballRect.getTop() > brickRect.getBottom() - brickRect.height / 2)
+			if(brick.sideHit(ballRect))
 			{
 				ball.reverseX();
 			}
-
-			if ((ballRect.getLeft() >= brickRect.getRight() && ballRect.getLeft() <= brickRect.getLeft())
-				&& (ballRect.getBottom() < brickRect.getTop() + brickRect.height / 2)
-				|| ballRect.getTop() > brickRect.getBottom() - brickRect.height / 2)
-			{
-				ball.reverseX();
-			}
-
-			points += brick.getPoints();
-			break;
 		}
+		//if(!brick.destroyed() && brick.hit(ball.getRect()))
+		//{
+		//	//Sides brickSides = brick.getSides();
+		//	//Sides ballSides = ball.getSides();
+		//	ofRectangle ballRect = ball.getRect();
+		//	ofRectangle brickRect = brick.getRect();
+
+		//	if(ballRect.getTop() <= brickRect.getBottom() && ballRect.getTop() >= brickRect.getTop())
+		//	{
+		//		ball.reverseY();
+		//	}
+		//	if(ballRect.getBottom() <= brickRect.getTop() && ballRect.getBottom() >= brickRect.getBottom())
+		//	{
+		//		ball.reverseY();
+		//	}
+
+		//	if ((ballRect.getRight() >= brickRect.getLeft() && ballRect.getRight() <= brickRect.getRight()) 
+		//		&& (ballRect.getBottom() < brickRect.getTop() + brickRect.height / 2)
+		//		|| ballRect.getTop() > brickRect.getBottom() - brickRect.height / 2)
+		//	{
+		//		ball.reverseX();
+		//	}
+
+		//	if ((ballRect.getLeft() >= brickRect.getRight() && ballRect.getLeft() <= brickRect.getLeft())
+		//		&& (ballRect.getBottom() < brickRect.getTop() + brickRect.height / 2)
+		//		|| ballRect.getTop() > brickRect.getBottom() - brickRect.height / 2)
+		//	{
+		//		ball.reverseX();
+		//	}
+
+		//	points += brick.getPoints();
+		//	break;
+		//}
 	}
 
 	if(ball.hitTop())

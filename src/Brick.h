@@ -18,7 +18,9 @@ public:
 
 	void draw();
 
-	bool hit(const ofRectangle rect);
+	bool topBottomHit(const ofRectangle rect);
+	bool sideHit(const ofRectangle rect);
+
 	ofRectangle getRect();
 	float getPoints();
 	bool destroyed();
