@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Coordinates.h"
 #include "RectangleSize.h"
+#include "Sides.h"
 #include <ofMain.h>
 class Brick
 {
@@ -18,7 +19,7 @@ public:
 	void draw();
 
 	bool hit(const ofRectangle rect);
-	float* getSides();
+	ofRectangle getRect();
 	float getPoints();
 	bool destroyed();
 	void reset();

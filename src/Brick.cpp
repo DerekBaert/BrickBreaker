@@ -48,10 +48,9 @@ bool Brick::hit(const ofRectangle rect)
 
 
 
-float* Brick::getSides()
+ofRectangle Brick::getRect()
 {
-	float sides[4] = { mRectangle.getLeft(), mRectangle.getRight(), mRectangle.getTop(), mRectangle.getBottom() };
-	return sides;
+	return mRectangle;
 }
 
 float Brick::getPoints()

@@ -2,6 +2,7 @@
 #include "Coordinates.h"
 #include "ofRectangle.h"
 #include "RectangleSize.h"
+#include "Sides.h"
 
 class Ball
 {
@@ -24,12 +25,11 @@ public:
 	void reset();
 
 	bool hitTop();
-
 	bool hitBottom();
 
 	Coordinates getPosition();
-
 	ofRectangle getRect();
+	Sides getSides();
 
 
 };

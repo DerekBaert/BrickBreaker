@@ -109,12 +109,30 @@ void ofApp::update()
 	{
 		if(!brick.destroyed() && brick.hit(ball.getRect()))
 		{
-			auto sides = brick.getSides();
-			if(ball.getPosition().y > sides[2] || ball.getPosition().y < sides[3])
+			//Sides brickSides = brick.getSides();
+			//Sides ballSides = ball.getSides();
+			ofRectangle ballRect = ball.getRect();
+			ofRectangle brickRect = brick.getRect();
+
+			if(ballRect.getTop() <= brickRect.getBottom() && ballRect.getTop() >= brickRect.getTop())
 			{
 				ball.reverseY();
 			}
-			else if (ball.getPosition().x > sides[0] || ball.getPosition().x < sides[1])
+			if(ballRect.getBottom() <= brickRect.getTop() && ballRect.getBottom() >= brickRect.getBottom())
+			{
+				ball.reverseY();
+			}
+
+			if ((ballRect.getRight() >= brickRect.getLeft() && ballRect.getRight() <= brickRect.getRight()) 
+				&& (ballRect.getBottom() < brickRect.getTop() + brickRect.height / 2)
+				|| ballRect.getTop() > brickRect.getBottom() - brickRect.height / 2)
+			{
+				ball.reverseX();
+			}
+
+			if ((ballRect.getLeft() >= brickRect.getRight() && ballRect.getLeft() <= brickRect.getLeft())
+				&& (ballRect.getBottom() < brickRect.getTop() + brickRect.height / 2)
+				|| ballRect.getTop() > brickRect.getBottom() - brickRect.height / 2)
 			{
 				ball.reverseX();
 			}

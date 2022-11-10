@@ -187,6 +187,7 @@
     <ClCompile Include="src\Brick.cpp" />
     <ClCompile Include="src\Coordinates.cpp" />
     <ClCompile Include="src\RectangleSize.cpp" />
+    <ClCompile Include="src\Sides.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Ball.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="src\Brick.h" />
     <ClInclude Include="src\Coordinates.h" />
     <ClInclude Include="src\RectangleSize.h" />
+    <ClInclude Include="src\Sides.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

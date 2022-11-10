@@ -22,6 +22,9 @@
     <ClCompile Include="src\Ball.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sides.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -45,6 +48,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Ball.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sides.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

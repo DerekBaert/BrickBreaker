@@ -113,3 +113,9 @@ Coordinates Ball::getPosition()
 {
 	return mRectangle;
 }
+
+Sides Ball::getSides()
+{
+	Sides sides{ mRectangle.getTop(), mRectangle.getBottom(), mRectangle.getLeft(), mRectangle.getRight() };
+	return sides;
+}
