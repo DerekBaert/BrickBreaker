@@ -37,6 +37,9 @@ class ofApp : public ofBaseApp
 		int points;
 		int lives;
 		bool gameOver = false;
+		bool redFlag;
+		bool orangeFlag;
+		int brickCounter;
 
 		float brickStart;
 

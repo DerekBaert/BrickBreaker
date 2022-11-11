@@ -19,4 +19,5 @@ public:
 	void shrink();
 	void draw();
 	bool hit(const ofRectangle rect);
+	void reset();
 };

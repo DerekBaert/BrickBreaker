@@ -6,7 +6,7 @@
 /**
  * \brief Constructs the ball with default parameters.
  */
-Ball::Ball() : mSize{ 10 }, mPosition{ 5,5 }, mSpeed{ 1,1 }, mOffset{ 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize)
+Ball::Ball() : mSize{ 10 }, mPosition{ 5,5 }, mSpeed{ 2,2 }, mOffset{ 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize)
 {}
 
 /**
@@ -31,8 +31,8 @@ void Ball::move()
  */
 void Ball::increaseSpeed()
 {
-	mSpeed.x++;
-	mSpeed.y++;
+	mSpeed.x += 0.5;
+	mSpeed.y += 0.5;
 }
 
 /**
@@ -76,6 +76,7 @@ void Ball::reset()
 	mRectangle.x = mPosition.x;
 	mRectangle.y = mPosition.y;
 	mOffset = { 1,-1 };
+	mSpeed = {2, 2};
 }
 
 /**

@@ -3,10 +3,15 @@
 
 //--------------------------------------------------------------
 
+// Need to add mouse controls, win condition
+// Extras: Sound and music (1 pt each), 
+
 void ofApp::setup()
 {
 	paused = false;
 	lives = 3;
+	redFlag = false;
+	orangeFlag = false;
 	brickStart = ofGetHeight() / 10;
 	fifthOfScreen = brickStart / 2;
 
@@ -126,23 +131,45 @@ void ofApp::update()
 
 			// After hit is determined, add the brick's point value to the player's score.
 			points += brick.getPoints();
+
+			if(brick.getPoints() == 7 && !redFlag)
+			{
+				ball.increaseSpeed();
+				redFlag = true;
+			}
+
+			if(brick.getPoints() == 5 && !orangeFlag)
+			{
+				ball.increaseSpeed();
+				orangeFlag = true;
+			}
+
+			if(brickCounter == 4 || brickCounter == 12)
+			{
+				ball.increaseSpeed();
+			}
+			brickCounter++;
 			break;		
 		}
 	}
 
+	// Checking if top of the canvas is hit
 	if(ball.hitTop())
 	{
 		paddle.shrink();
 		ofDrawBitmapString("Hit top", 50, 75);
 	}
 
+	// Checking if the bottom of the canvas is hit
 	if(ball.hitBottom())
 	{
+		// If lives are above 0, reset the ball's location to the start and decrement the life counter
 		if(lives > 0)
 		{
 			ball.reset();
 			lives--;
 		}
+		// If the lives are 0 or less, set paused and game over to true.
 		else
 		{
 			gameOver = true;
@@ -151,6 +178,7 @@ void ofApp::update()
 		
 	}
 
+	// Ball only moves if game is not paused
 	if(!paused)
 	{
 		ball.move();
@@ -161,14 +189,16 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-	if(key == OF_KEY_LEFT && !paused)
+	if(key == OF_KEY_LEFT && !paused && !gameOver)
 	{
 		paddle.move(-1);
 	}
-	if (key == OF_KEY_RIGHT && !paused)
+	if (key == OF_KEY_RIGHT && !paused && !gameOver)
 	{
 		paddle.move(1);
 	}
+
+
 	if(key == OF_KEY_SPACE)
 	{
 		if(gameOver)
@@ -181,12 +211,15 @@ void ofApp::keyPressed(int key)
 
 void ofApp::resetGame()
 {
+	lives = 3;
 	for(auto &brick : bricks)
 	{
 		brick.reset();
 	}
+	gameOver = !gameOver;
+	paddle.reset();
 	points = 0;
-	lives = 3;
+	
 }
 
 //--------------------------------------------------------------

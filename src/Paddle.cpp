@@ -53,3 +53,9 @@ bool Paddle::hit(const ofRectangle rect)
 	return mRectangle.intersects(rect);
 }
 
+void Paddle::reset()
+{
+	mRectangle.x = mPosition.x;
+	mRectangle.y = mPosition.y;
+}
+
