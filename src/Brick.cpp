@@ -32,59 +32,67 @@ void Brick::draw()
 }
 
 /**
- * \brief Checks if given rectangle is intersecting with brick
- * \param rect rectangle to check for intersection
- * \return True if intersection occurs, false if not
+ * \brief Checks if the given rectangle is touching the top or bottom of the brick
+ * \param rect Rectangle to compare against
+ * \return True if the rectangle is touching the top or bottom, false if not
  */
-//bool Brick::hit(const ofRectangle rect)
-//{
-//	if(!mHit)
-//	{
-//		//mHit = mRectangle.intersects(rect);
-//		mHit = true;
-//	}
-//	
-//	return mRectangle.intersects(rect);
-//	
-//}
-
 bool Brick::topBottomHit(const ofRectangle rect)
 {
 	if(!mHit)
 	{
-		mHit = (rect.getTop() == mRectangle.getBottom() || rect.getBottom() == mRectangle.getTop())
-			&& (rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight());
+		mHit = rect.getTop() <= mRectangle.getBottom() && rect.getBottom() >= mRectangle.getTop()
+		&& (rect.getTop() > mRectangle.getTop() + mRectangle.height / 2 || rect.getBottom() < mRectangle.getTop() + mRectangle.height / 2);
 	}	
-	return (rect.getTop() == mRectangle.getBottom() || rect.getBottom() == mRectangle.getTop())
-		&& (rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight());
+	return rect.getTop() <= mRectangle.getBottom() && rect.getBottom() >= mRectangle.getTop()
+		&& (rect.getTop() > mRectangle.getTop() + mRectangle.height / 2 || rect.getBottom() < mRectangle.getTop() + mRectangle.height / 2);
 }
 
+/**
+ * \brief Checks if the given rectangle is touching the side of the brick
+ * \param rect Rectangle to compare against
+ * \return True if the rectangle is touching the side, false if not
+ */
 bool Brick::sideHit(const ofRectangle rect)
 {
 	if(!mHit)
 	{
-		mHit = (rect.getRight() == mRectangle.getLeft() || rect.getLeft() == mRectangle.getRight())
-			&& (rect.getBottom() >= mRectangle.getTop() && rect.getTop() <= mRectangle.getBottom());
+		mHit = rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight()
+		&& (rect.getLeft() < mRectangle.getLeft() || rect.getRight() > mRectangle.getRight());
 	}	
-	return (rect.getRight() == mRectangle.getLeft() || rect.getLeft() == mRectangle.getRight())
-		&& (rect.getBottom() >= mRectangle.getTop() && rect.getTop() <= mRectangle.getBottom());
+	return rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight()
+		&& (rect.getLeft() < mRectangle.getLeft() || rect.getRight() > mRectangle.getRight());
 }
 
+/**
+ * \brief Return the rectangle object being drawn to the screen.
+ * \return The rectangle object
+ */
 ofRectangle Brick::getRect()
 {
 	return mRectangle;
 }
 
+/**
+ * \brief Returns the point value of the brick.
+ * \return The point value of the brick
+ */
 float Brick::getPoints()
 {
 	return mPointValue;
 }
 
+/**
+ * \brief Indicates if the brick has been broken or not
+ * \return True if destroyed, false if not
+ */
 bool Brick::destroyed()
 {
 	return mHit;
 }
 
+/**
+ * \brief Resets the brick to not destroyed.
+ */
 void Brick::reset()
 {
 	mHit = false;

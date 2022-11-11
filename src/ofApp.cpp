@@ -104,57 +104,30 @@ void ofApp::update()
 	{
 		ball.reverseY();
 	}
+	ofRectangle ballRect = ball.getRect();
+
 
 	for(auto &brick :bricks)
 	{
-
-		if(!brick.destroyed())
+		// Checking if brick is not destroyed already and the ball is intersecting with it
+		if(!brick.destroyed() && brick.getRect().intersects(ballRect))
 		{
-			ofRectangle ballRect = ball.getRect();
-			//ofRectangle brickRect = brick.getRect();
+			// If the brick registers the side as being hit, the ball reverse it's trajectory on the X axis.
+			if (brick.sideHit(ballRect))
+			{
+				ball.reverseX();
+			}
 
+			// If the brick registers the top or bottom as being hit, the ball reverse it's trajectory on the Y axis.
 			if (brick.topBottomHit(ballRect))
 			{
 				ball.reverseY();
 			}
-			if(brick.sideHit(ballRect))
-			{
-				ball.reverseX();
-			}
+
+			// After hit is determined, add the brick's point value to the player's score.
+			points += brick.getPoints();
+			break;		
 		}
-		//if(!brick.destroyed() && brick.hit(ball.getRect()))
-		//{
-		//	//Sides brickSides = brick.getSides();
-		//	//Sides ballSides = ball.getSides();
-		//	ofRectangle ballRect = ball.getRect();
-		//	ofRectangle brickRect = brick.getRect();
-
-		//	if(ballRect.getTop() <= brickRect.getBottom() && ballRect.getTop() >= brickRect.getTop())
-		//	{
-		//		ball.reverseY();
-		//	}
-		//	if(ballRect.getBottom() <= brickRect.getTop() && ballRect.getBottom() >= brickRect.getBottom())
-		//	{
-		//		ball.reverseY();
-		//	}
-
-		//	if ((ballRect.getRight() >= brickRect.getLeft() && ballRect.getRight() <= brickRect.getRight()) 
-		//		&& (ballRect.getBottom() < brickRect.getTop() + brickRect.height / 2)
-		//		|| ballRect.getTop() > brickRect.getBottom() - brickRect.height / 2)
-		//	{
-		//		ball.reverseX();
-		//	}
-
-		//	if ((ballRect.getLeft() >= brickRect.getRight() && ballRect.getLeft() <= brickRect.getLeft())
-		//		&& (ballRect.getBottom() < brickRect.getTop() + brickRect.height / 2)
-		//		|| ballRect.getTop() > brickRect.getBottom() - brickRect.height / 2)
-		//	{
-		//		ball.reverseX();
-		//	}
-
-		//	points += brick.getPoints();
-		//	break;
-		//}
 	}
 
 	if(ball.hitTop())
