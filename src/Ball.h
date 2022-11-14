@@ -11,7 +11,7 @@ class Ball
 	Coordinates mSpeed;
 	Coordinates mOffset;
 	ofRectangle mRectangle;
-	
+	Coordinates mIncrease;
 public:
 	Ball();
 	Ball(float size, Coordinates position);
