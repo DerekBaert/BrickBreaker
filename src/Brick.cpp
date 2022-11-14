@@ -15,7 +15,7 @@ Brick::Brick() :mSize{ 10,10 }, mPosition{ 0,0 }, mColour{ ofColor(0,0,0)}, mPoi
  * \param colour Colour of the brick
  * \param pointValue How many points the brick is worth
  */
-Brick::Brick(RectangleSize size, Coordinates position, ofColor colour, float pointValue)
+Brick::Brick(RectangleSize size, Coordinates position, ofColor colour, int pointValue)
 	:mSize{ size }, mPosition{ position }, mColour{ colour }, mPointValue{pointValue}, mHit{ false }, mRectangle{ mPosition.x, mPosition.y, mSize.width, mSize.height }
 {}
 
@@ -76,7 +76,7 @@ ofRectangle Brick::getRect()
  * \brief Returns the point value of the brick.
  * \return The point value of the brick
  */
-float Brick::getPoints()
+int Brick::getPoints()
 {
 	return mPointValue;
 }

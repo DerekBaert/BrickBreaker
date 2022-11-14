@@ -3,8 +3,8 @@
 
 //--------------------------------------------------------------
 
-// Need to add mouse controls, win condition
-// Extras: Sound and music (1 pt each), 
+// Need to test win condition
+// Extras: Sound and music (1 pt each), title screen
 
 void ofApp::setup()
 {
@@ -16,7 +16,7 @@ void ofApp::setup()
 	fifthOfScreen = brickStart / 2;
 
 	// Setting up the variables for creating the paddle, and the speed of the paddle as well
-	RectangleSize paddleSize{ 20,100 };
+	paddleSize = { 20,100 };
 	Coordinates paddlePosition{ static_cast<float>((ofGetWidth() / 2) - (paddleSize.width / 2)), static_cast<float>(ofGetHeight() - 50) };
 	float paddleSpeed = 10;
 
@@ -31,7 +31,7 @@ void ofApp::setup()
 	brickWidth = (ofGetWidth()  / 14) - buffer;
 	RectangleSize brickSize{ static_cast<float>(ofGetHeight() / 50), brickWidth };
 
-	for(float x = buffer; x < ofGetWidth() + buffer; x += brickWidth + buffer)
+	for(float x = buffer; x < ofGetWidth(); x += brickWidth + buffer)
 	{
 		float y = brickStart;
 		for(int i = 1; i < 9; i++)
@@ -86,18 +86,21 @@ void ofApp::draw()
 
 	if (paused)
 	{
-		if (gameOver)
+		if(gameOver)
 		{
 			ofDrawBitmapString("Game over", ofGetWidth() / 2, ofGetHeight() / 2);
-			ofDrawBitmapString("Press Space to continue", ofGetWidth() / 2, ofGetHeight() / 2 + 10);
+			ofDrawBitmapString("Press Space to restart.", ofGetWidth() / 2, ofGetHeight() / 2 + 10);
+		}
+		else if(gameWon)
+		{
+			ofDrawBitmapString("You Won!", ofGetWidth() / 2, ofGetHeight() / 2);
+			ofDrawBitmapString("Press Space to play again.", ofGetWidth() / 2, ofGetHeight() / 2 + 10);
 		}
 		else
 		{
-			ofDrawBitmapString("Pause", ofGetWidth() / 2, ofGetHeight() / 2);
+			ofDrawBitmapString("Paused", ofGetWidth() / 2, ofGetHeight() / 2);
 		}		
 	}
-
-	
 }
 
 //--------------------------------------------------------------
@@ -109,9 +112,8 @@ void ofApp::update()
 	{
 		ball.reverseY();
 	}
+
 	ofRectangle ballRect = ball.getRect();
-
-
 	for(auto &brick :bricks)
 	{
 		// Checking if brick is not destroyed already and the ball is intersecting with it
@@ -172,17 +174,23 @@ void ofApp::update()
 		// If the lives are 0 or less, set paused and game over to true.
 		else
 		{
-			gameOver = true;
 			paused = true;
-		}
-		
+			gameOver = true;			
+		}		
 	}
 
 	// Ball only moves if game is not paused
 	if(!paused)
 	{
 		ball.move();
-	}	
+	}
+
+	// Checking if all bricks are gone, and if so make the game as complete
+	if(brickCounter == static_cast<int>(bricks.size()))
+	{
+		gameWon = brickCounter == static_cast<int>(bricks.size());
+		paused = brickCounter == static_cast<int>(bricks.size());
+	}
 }
 
 
@@ -201,10 +209,11 @@ void ofApp::keyPressed(int key)
 
 	if(key == OF_KEY_SPACE)
 	{
-		if(gameOver)
+		if(gameOver || gameWon)
 		{
 			resetGame();
 		}
+
 		paused = !paused;
 	}
 }
@@ -228,8 +237,12 @@ void ofApp::keyReleased(int key){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
+void ofApp::mouseMoved(int x, int y )
+{
+	if(mouseX > 0 && mouseX + paddle.getWidth() < ofGetWidth())
+	{
+		paddle.mouseMove(mouseX);
+	}	
 }
 
 //--------------------------------------------------------------

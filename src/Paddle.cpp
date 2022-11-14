@@ -1,5 +1,6 @@
 ﻿#include "Paddle.h"
 
+#include "ofAppRunner.h"
 #include "ofGraphics.h"
 #include "ofRectangle.h"
 
@@ -58,4 +59,15 @@ void Paddle::reset()
 	mRectangle.x = mPosition.x;
 	mRectangle.y = mPosition.y;
 }
+
+void Paddle::mouseMove(const int newX)
+{
+	mRectangle.x = newX;
+}
+
+float Paddle::getWidth()
+{
+	return mRectangle.width;
+}
+
 

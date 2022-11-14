@@ -8,13 +8,13 @@ class Brick
 	RectangleSize mSize;
 	Coordinates mPosition;
 	ofColor mColour;
-	float mPointValue;
+	int mPointValue;
 	bool mHit;
 	ofRectangle mRectangle;
 
 public:
 	Brick();
-	Brick(RectangleSize size, Coordinates position, ofColor colour, float pointValue);
+	Brick(RectangleSize size, Coordinates position, ofColor colour, int pointValue);
 
 	void draw();
 
@@ -22,7 +22,7 @@ public:
 	bool sideHit(const ofRectangle rect);
 
 	ofRectangle getRect();
-	float getPoints();
+	int getPoints();
 	bool destroyed();
 	void reset();
 };

@@ -32,11 +32,13 @@ class ofApp : public ofBaseApp
 		Ball ball;
 		Paddle paddle;
 		std::vector<Brick> bricks{};
+		RectangleSize paddleSize;
 		bool paused;
 		const int OF_KEY_SPACE = 32;
 		int points;
 		int lives;
 		bool gameOver = false;
+		bool gameWon = false;
 		bool redFlag;
 		bool orangeFlag;
 		int brickCounter;

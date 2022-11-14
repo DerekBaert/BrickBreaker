@@ -20,4 +20,6 @@ public:
 	void draw();
 	bool hit(const ofRectangle rect);
 	void reset();
+	void mouseMove(const int newX);
+	float getWidth();
 };
