@@ -8,34 +8,42 @@
 
 // Font source: https://www.fontspace.com/pixeloid-font-f69232
 // Centered True Type Font: https://github.com/armadillu/ofxCenteredTrueTypeFont/blob/master/src/ofxCenteredTrueTypeFont.h
+// Hit, game over and winSound sounds: https://mixkit.co/free-sound-effects/game/ (no option to link individually)
 
 void ofApp::setup()
 {
-	lives = 3;
 	titleFont.load("pixel2.ttf", 75);
 	titleFont.setLetterSpacing(1.5);
 	gameFont.load("pixel2.ttf",20);
 
-	redFlag = false;
-	orangeFlag = false;
+	// Calculating starting point for brick grid, and what 1/5 of the screen is for later calculations.
 	brickStart = ofGetHeight() / 10;
 	fifthOfScreen = brickStart / 2;
+
 	// Setting up the variables for creating the paddle, and the speed of the paddle as well
 	paddleSize = { 20,100 };
 	Coordinates paddlePosition{ static_cast<float>((ofGetWidth() / 2) - (paddleSize.width / 2)), static_cast<float>(ofGetHeight() - 50) };
 	float paddleSpeed = 10;
+
+	// Sound effect players
+	hitSound.load("bounce.wav");
+	winSound.load("complete.wav");
+	gameOverSound.load("game_over.wav");
 
 	// Setting up the variables for creating the ball
 	float ballSize{ 10 };
 	Coordinates ballPosition{ paddlePosition.x + (paddleSize.width / 2) - (ballSize / 2),(paddlePosition.y - ballSize)-1 };
 
 	ball = { ballSize,ballPosition};
+
 	paddle = { paddleSize, paddlePosition, paddleSpeed };
 
+	// Calculating the buffer (space between each brick) and calculating the width of the brick including buffer
 	buffer = ofGetWidth() / 400;
 	brickWidth = (ofGetWidth()  / 14) - buffer;
 	RectangleSize brickSize{ static_cast<float>(ofGetHeight() / 50), brickWidth };
 
+	// Loop through and add bricks to vector, setting color based on the iteration of the inner loop to figure out which row it will be in
 	for(float x = buffer; x < ofGetWidth(); x += brickWidth + buffer)
 	{
 		float y = brickStart;
@@ -94,14 +102,14 @@ void ofApp::draw()
 		if (paused)
 		{
 			if (gameOver)
-			{
+			{				
 				gameFont.drawStringCentered("Game over", ofGetWidth() / 2, ofGetHeight() / 2);
 				gameFont.drawStringCentered("Press Space to restart.", ofGetWidth() / 2, ofGetHeight() / 2 + gameFont.getLineHeight());
 			}
 			else if (gameWon)
-			{
+			{				
 				gameFont.drawStringCentered("You Won!", ofGetWidth() / 2, ofGetHeight() / 2);
-				gameFont.drawStringCentered("Press Space to play again.", ofGetWidth() / 2, ofGetHeight() / 2 + 10);
+				gameFont.drawStringCentered("Press Space to play again.", ofGetWidth() / 2, ofGetHeight() / 2 + gameFont.getLineHeight());
 			}
 			else
 			{
@@ -128,6 +136,7 @@ void ofApp::update()
 
 	if(paddle.hit(ball.getRect()))
 	{
+		hitSound.play();
 		ball.reverseY();
 	}
 
@@ -137,19 +146,19 @@ void ofApp::update()
 		// Checking if brick is not destroyed already and the ball is intersecting with it
 		if(!brick.destroyed() && brick.getRect().intersects(ballRect))
 		{
-			// If the brick registers the side as being hit, the ball reverse it's trajectory on the X axis.
+			// If the brick registers the side as being hitSound, the ball reverse it's trajectory on the X axis.
 			if (brick.sideHit(ballRect))
 			{
 				ball.reverseX();
 			}
 
-			// If the brick registers the top or bottom as being hit, the ball reverse it's trajectory on the Y axis.
+			// If the brick registers the top or bottom as being hitSound, the ball reverse it's trajectory on the Y axis.
 			if (brick.topBottomHit(ballRect))
 			{
 				ball.reverseY();
 			}
 
-			// After hit is determined, add the brick's point value to the player's score.
+			// After hitSound is determined, add the brick's point value to the player's score.
 			points += brick.getPoints();
 
 			if(brick.getPoints() == 7 && !redFlag)
@@ -168,19 +177,20 @@ void ofApp::update()
 			{
 				ball.increaseSpeed();
 			}
+			hitSound.play();
 			brickCounter++;
 			break;		
 		}
 	}
 
-	// Checking if top of the canvas is hit
+	// Checking if top of the canvas is hitSound
 	if(ball.hitTop() && !easy)
 	{
 		paddle.shrink();
 	}
 
-	// Checking if the bottom of the canvas is hit
-	if(ball.hitBottom())
+	// Checking if the bottom of the canvas is hitSound
+	if(ball.hitBottom() && !gameOver)
 	{
 		// If lives are above 0, reset the ball's location to the start and decrement the life counter
 		if(lives > 0)
@@ -191,6 +201,7 @@ void ofApp::update()
 		// If the lives are 0 or less, set paused and game over to true.
 		else
 		{
+			gameOverSound.play();
 			paused = true;
 			gameOver = true;			
 		}		
@@ -203,10 +214,11 @@ void ofApp::update()
 	}
 
 	// Checking if all bricks are gone, and if so make the game as complete
-	if(brickCounter == static_cast<int>(bricks.size()))
+	if(brickCounter >= static_cast<int>(bricks.size()) && !gameWon)
 	{
-		gameWon = brickCounter == static_cast<int>(bricks.size());
-		paused = brickCounter == static_cast<int>(bricks.size());
+		gameWon = true;
+		paused = true;
+		winSound.play();
 	}
 }
 

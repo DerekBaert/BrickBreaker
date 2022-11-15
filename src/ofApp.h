@@ -34,17 +34,17 @@ class ofApp : public ofBaseApp
 		Paddle paddle;
 		std::vector<Brick> bricks{};
 		RectangleSize paddleSize;
-		bool paused = true;
-		bool gameStart = true;
-		const int OF_KEY_SPACE = 32;
-		int points = 0;
-		int lives;
-		bool gameOver = false;
-		bool gameWon = false;
-		bool easy;
-		bool redFlag;
-		bool orangeFlag;
-		int brickCounter;
+		bool paused{ true };
+		bool gameStart {true};
+		const int OF_KEY_SPACE {32};
+		int points {0};
+		int lives {3};
+		bool gameOver {false};
+		bool gameWon{ false };
+		bool easy {false};
+		bool redFlag {false};
+		bool orangeFlag{false};
+		int brickCounter{ 0 };
 		float brickStart;
 		float fifthOfScreen;		
 		float brickWidth;
@@ -52,6 +52,10 @@ class ofApp : public ofBaseApp
 
 		ofxCenteredTrueTypeFont gameFont;
 		ofxCenteredTrueTypeFont titleFont;
+
+		ofSoundPlayer hitSound;
+		ofSoundPlayer winSound;
+		ofSoundPlayer gameOverSound;
 
 		
 };
