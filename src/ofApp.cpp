@@ -4,7 +4,7 @@
 //--------------------------------------------------------------
 
 // Fix paddle bouncing behaviour
-// Extras: Sound and music (1 pt each), make title screen look nice, lock screen size
+// Extras: Sound and music (1 pt each)
 
 // Font source: https://www.fontspace.com/pixeloid-font-f69232
 // Centered True Type Font: https://github.com/armadillu/ofxCenteredTrueTypeFont/blob/master/src/ofxCenteredTrueTypeFont.h

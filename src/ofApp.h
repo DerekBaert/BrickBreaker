@@ -37,7 +37,7 @@ class ofApp : public ofBaseApp
 		bool paused = true;
 		bool gameStart = true;
 		const int OF_KEY_SPACE = 32;
-		int points;
+		int points = 0;
 		int lives;
 		bool gameOver = false;
 		bool gameWon = false;
