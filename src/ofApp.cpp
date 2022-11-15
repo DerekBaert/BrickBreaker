@@ -3,8 +3,8 @@
 
 //--------------------------------------------------------------
 
-// Fix paddle bouncing behaviour
-// Extras: Sound and music (1 pt each)
+// Paddle bounce mirrors bricks, still gets stuck however.
+// Extras: Music 
 
 // Font source: https://www.fontspace.com/pixeloid-font-f69232
 // Centered True Type Font: https://github.com/armadillu/ofxCenteredTrueTypeFont/blob/master/src/ofxCenteredTrueTypeFont.h
@@ -134,13 +134,23 @@ void ofApp::update()
 	
 	ball.hitSide();
 
+	ofRectangle ballRect = ball.getRect();
+
 	if(paddle.hit(ball.getRect()))
 	{
 		hitSound.play();
-		ball.reverseY();
-	}
+		if (paddle.sideHit(ballRect))
+		{
+			ball.reverseX();
+		}
 
-	ofRectangle ballRect = ball.getRect();
+		// If the brick registers the top or bottom as being hitSound, the ball reverse it's trajectory on the Y axis.
+		if (paddle.topHit(ballRect))
+		{
+			ball.reverseY();
+		}
+	}
+	
 	for(auto &brick :bricks)
 	{
 		// Checking if brick is not destroyed already and the ball is intersecting with it

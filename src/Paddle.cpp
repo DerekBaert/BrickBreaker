@@ -70,4 +70,16 @@ float Paddle::getWidth()
 	return mRectangle.width;
 }
 
+bool Paddle::topHit(const ofRectangle rect)
+{
+	return rect.getTop() <= mRectangle.getBottom() && rect.getBottom() >= mRectangle.getTop()
+		&& (rect.getTop() > mRectangle.getTop() + mRectangle.height / 2 || rect.getBottom() < mRectangle.getTop() + mRectangle.height / 2);
+}
+
+bool Paddle::sideHit(const ofRectangle rect)
+{
+	return rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight()
+		&& (rect.getLeft() < mRectangle.getLeft() || rect.getRight() > mRectangle.getRight());
+}
+
 

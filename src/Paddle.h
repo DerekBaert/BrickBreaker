@@ -22,4 +22,7 @@ public:
 	void reset();
 	void mouseMove(const int newX);
 	float getWidth();
+
+	bool topHit(const ofRectangle rect);
+	bool sideHit(const ofRectangle rect);
 };
