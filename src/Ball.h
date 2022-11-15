@@ -11,7 +11,6 @@ class Ball
 	Coordinates mSpeed;
 	Coordinates mOffset;
 	ofRectangle mRectangle;
-	Coordinates mIncrease;
 public:
 	Ball();
 	Ball(float size, Coordinates position);
@@ -23,6 +22,7 @@ public:
 	void draw();
 	void hitSide();
 	void reset();
+	void newGame();
 
 	bool hitTop();
 	bool hitBottom();

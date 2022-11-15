@@ -4,6 +4,7 @@
 #include "Ball.h"
 #include "Brick.h"
 #include "ofMain.h"
+#include "ofxCenteredTrueTypeFont.h"
 #include "Paddle.h"
 #include "Sides.h"
 
@@ -44,13 +45,13 @@ class ofApp : public ofBaseApp
 		bool redFlag;
 		bool orangeFlag;
 		int brickCounter;
-
 		float brickStart;
-
-		float fifthOfScreen;
-		
+		float fifthOfScreen;		
 		float brickWidth;
 		float buffer;
+
+		ofxCenteredTrueTypeFont gameFont;
+		ofxCenteredTrueTypeFont titleFont;
 
 		
 };

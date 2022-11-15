@@ -6,7 +6,7 @@
 /**
  * \brief Constructs the ball with default parameters.
  */
-Ball::Ball() : mSize{ 10 }, mPosition{ 5,5 }, mSpeed{ 2,2 }, mOffset{ 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize), mIncrease {0,0}
+Ball::Ball() : mSize{ 10 }, mPosition{ 5,5 }, mSpeed{ 2,2 }, mOffset{ 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize)
 {}
 
 /**
@@ -14,7 +14,7 @@ Ball::Ball() : mSize{ 10 }, mPosition{ 5,5 }, mSpeed{ 2,2 }, mOffset{ 1,-1 }, mR
  * \param size The size of the ball.
  * \param position The starting X and Y coordinates of the ball.
  */
-Ball::Ball(float size, Coordinates position) : mSize{ size }, mPosition{ position }, mSpeed{ 2,2 }, mOffset { 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize), mIncrease{ 0,0 }
+Ball::Ball(float size, Coordinates position) : mSize{ size }, mPosition{ position }, mSpeed{ 2,2 }, mOffset { 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize)
 {}
 
 /**
@@ -31,11 +31,8 @@ void Ball::move()
  */
 void Ball::increaseSpeed()
 {
-	mIncrease.x += 0.5;
-	mIncrease.y += 0.5;
-
-	mSpeed.x += mIncrease.x;
-	mSpeed.y += mIncrease.y;
+	mSpeed.x += 0.5;
+	mSpeed.y += 0.5;
 }
 
 /**
@@ -79,7 +76,12 @@ void Ball::reset()
 	mRectangle.x = mPosition.x;
 	mRectangle.y = mPosition.y;
 	mOffset = { 1,-1 };
-	mSpeed = {mSpeed.x + mIncrease.x, mSpeed.y + mIncrease.y };
+}
+
+void Ball::newGame()
+{
+	reset();
+	mSpeed = { 2,2 };
 }
 
 /**

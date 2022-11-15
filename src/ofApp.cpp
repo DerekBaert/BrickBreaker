@@ -4,10 +4,18 @@
 //--------------------------------------------------------------
 
 // Fix paddle bouncing behaviour
-// Extras: Sound and music (1 pt each), title screen, easy mode
+// Extras: Sound and music (1 pt each), make title screen look nice, lock screen size
+
+// Font source: https://www.fontspace.com/pixeloid-font-f69232
+// Centered True Type Font: https://github.com/armadillu/ofxCenteredTrueTypeFont/blob/master/src/ofxCenteredTrueTypeFont.h
 
 void ofApp::setup()
 {
+	lives = 3;
+	titleFont.load("pixel2.ttf", 75);
+	titleFont.setLetterSpacing(1.5);
+	gameFont.load("pixel2.ttf",20);
+
 	redFlag = false;
 	orangeFlag = false;
 	brickStart = ofGetHeight() / 10;
@@ -72,8 +80,8 @@ void ofApp::draw()
 
 	if(!gameStart)
 	{
-		ofDrawBitmapString("Points: " + std::to_string(points), 10, fifthOfScreen);
-		ofDrawBitmapString("Lives: " + std::to_string(lives), ofGetWidth() - 100, fifthOfScreen);
+		gameFont.drawString("Points: " + std::to_string(points), 10, fifthOfScreen);
+		gameFont.drawString("Lives: " + std::to_string(lives), ofGetWidth() - 150, fifthOfScreen);
 
 		for (auto brick : bricks)
 		{
@@ -87,31 +95,35 @@ void ofApp::draw()
 		{
 			if (gameOver)
 			{
-				ofDrawBitmapString("Game over", ofGetWidth() / 2, ofGetHeight() / 2);
-				ofDrawBitmapString("Press Space to restart.", ofGetWidth() / 2, ofGetHeight() / 2 + 10);
+				gameFont.drawStringCentered("Game over", ofGetWidth() / 2, ofGetHeight() / 2);
+				gameFont.drawStringCentered("Press Space to restart.", ofGetWidth() / 2, ofGetHeight() / 2 + gameFont.getLineHeight());
 			}
 			else if (gameWon)
 			{
-				ofDrawBitmapString("You Won!", ofGetWidth() / 2, ofGetHeight() / 2);
-				ofDrawBitmapString("Press Space to play again.", ofGetWidth() / 2, ofGetHeight() / 2 + 10);
+				gameFont.drawStringCentered("You Won!", ofGetWidth() / 2, ofGetHeight() / 2);
+				gameFont.drawStringCentered("Press Space to play again.", ofGetWidth() / 2, ofGetHeight() / 2 + 10);
 			}
 			else
 			{
-				ofDrawBitmapString("Paused", ofGetWidth() / 2, ofGetHeight() / 2);
+				gameFont.drawStringCentered("Paused", ofGetWidth() / 2, ofGetHeight() / 2);
 			}
 		}
 	}
 	else
 	{
-		ofDrawBitmapString("Use Left and Right Arrow Keys or your Mouse to move the paddle", ofGetWidth() / 2, ofGetHeight() / 2);
-		ofDrawBitmapString("Press Enter to Start Normal mode, or the 'E' key for easy mode", ofGetWidth() / 2, ofGetHeight() / 2 + 10);
+		titleFont.drawStringCentered("Brick Breaker", ofGetWidth() / 2, brickStart * 2);
+		gameFont.drawStringCentered("Controls:", ofGetWidth() / 2, ofGetHeight() * 0.65);
+		gameFont.drawStringCentered("Move Paddle: <- -> keys, or move mouse", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight());
+		gameFont.drawStringCentered("Press Spacebar to Pause game", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight()* 2);
+		gameFont.drawStringCentered("Press Enter to start Normal mode.", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight() * 3.5);
+		gameFont.drawStringCentered("Press 'E' to start Easy mode.", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight() * 4.5);
 	}
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	lives = easy ? 10 : 3;
+	
 	ball.hitSide();
 
 	if(paddle.hit(ball.getRect()))
@@ -212,12 +224,8 @@ void ofApp::keyPressed(int key)
 	}
 
 
-	if(key == OF_KEY_SPACE)
+	if(key == OF_KEY_SPACE && !gameStart)
 	{
-		if(gameStart)
-		{
-			gameStart = !gameStart;
-		}
 		if(gameOver || gameWon)
 		{
 			resetGame();
@@ -226,9 +234,16 @@ void ofApp::keyPressed(int key)
 		paused = !paused;
 	}
 
+	if(key == OF_KEY_RETURN && gameStart)
+	{
+		paused = !paused;
+		gameStart = !gameStart;
+	}
+
 	if((key == 'E' || key == 'e') && gameStart)
 	{
 		easy = true;
+		lives += 7;
 		gameStart = !gameStart;
 		paused = !paused;
 	}
@@ -236,14 +251,22 @@ void ofApp::keyPressed(int key)
 
 void ofApp::resetGame()
 {
-	lives = 3;
+	if(easy)
+	{
+		lives = 10;
+	}
+	else
+	{
+		lives = 3;
+	}
+	
 	for(auto &brick : bricks)
 	{
 		brick.reset();
 	}
 	gameOver = !gameOver;
 	paddle.reset();
-	ball.reset();
+	ball.newGame();
 	points = 0;
 	
 }

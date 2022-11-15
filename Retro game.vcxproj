@@ -192,6 +192,7 @@
   <ItemGroup>
     <ClInclude Include="src\Ball.h" />
     <ClInclude Include="src\ofApp.h" />
+    <ClInclude Include="src\ofxCenteredTrueTypeFont.h" />
     <ClInclude Include="src\Paddle.h" />
     <ClInclude Include="src\Brick.h" />
     <ClInclude Include="src\Coordinates.h" />
