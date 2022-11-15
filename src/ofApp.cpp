@@ -4,7 +4,6 @@
 //--------------------------------------------------------------
 
 // Paddle bounce mirrors bricks, still gets stuck however.
-// Extras: Music 
 
 // Font source: https://www.fontspace.com/pixeloid-font-f69232
 // Centered True Type Font: https://github.com/armadillu/ofxCenteredTrueTypeFont/blob/master/src/ofxCenteredTrueTypeFont.h
