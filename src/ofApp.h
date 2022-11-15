@@ -56,6 +56,8 @@ class ofApp : public ofBaseApp
 		ofSoundPlayer hitSound;
 		ofSoundPlayer winSound;
 		ofSoundPlayer gameOverSound;
+		ofSoundPlayer backgroundMusic;
+		ofSoundPlayer titleMusic;
 
 		
 };

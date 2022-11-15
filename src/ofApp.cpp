@@ -9,6 +9,7 @@
 // Font source: https://www.fontspace.com/pixeloid-font-f69232
 // Centered True Type Font: https://github.com/armadillu/ofxCenteredTrueTypeFont/blob/master/src/ofxCenteredTrueTypeFont.h
 // Hit, game over and winSound sounds: https://mixkit.co/free-sound-effects/game/ (no option to link individually)
+// Background music: https://soundimage.org/chiptunes/
 
 void ofApp::setup()
 {
@@ -29,7 +30,15 @@ void ofApp::setup()
 	hitSound.load("bounce.wav");
 	winSound.load("complete.wav");
 	gameOverSound.load("game_over.wav");
+	backgroundMusic.load("Arcade-Puzzler.mp3");
+	titleMusic.load("Arcade-Heroes.mp3");
 
+	if(gameStart)
+	{
+		titleMusic.setLoop(true);
+		titleMusic.play();
+	}
+	
 	// Setting up the variables for creating the ball
 	float ballSize{ 10 };
 	Coordinates ballPosition{ paddlePosition.x + (paddleSize.width / 2) - (ballSize / 2),(paddlePosition.y - ballSize)-1 };
@@ -131,7 +140,20 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	
+	if(!gameStart)
+	{
+		if(titleMusic.isPlaying())
+		{
+			titleMusic.stop();
+		}
+		ofDrawBitmapString(backgroundMusic.isLoaded() ? "True" : "False", 200, 200);
+
+		if(!backgroundMusic.isPlaying() && !gameOver && !gameWon)
+		{
+			backgroundMusic.setLoop(true);
+			backgroundMusic.play();
+		}		
+	}
 	ball.hitSide();
 
 	ofRectangle ballRect = ball.getRect();
@@ -211,6 +233,7 @@ void ofApp::update()
 		// If the lives are 0 or less, set paused and game over to true.
 		else
 		{
+			backgroundMusic.stop();
 			gameOverSound.play();
 			paused = true;
 			gameOver = true;			
@@ -226,6 +249,7 @@ void ofApp::update()
 	// Checking if all bricks are gone, and if so make the game as complete
 	if(brickCounter >= static_cast<int>(bricks.size()) && !gameWon)
 	{
+		backgroundMusic.stop();
 		gameWon = true;
 		paused = true;
 		winSound.play();
