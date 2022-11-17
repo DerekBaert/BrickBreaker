@@ -4,22 +4,22 @@
 #include "ofGraphics.h"
 
 
-Ball::Ball() : mSize{ 10 }, mPosition{ 5,5 }, mSpeed{ 2,2 }, mOffset{ 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize)
+Ball::Ball() : mSize{ 10 }, mPosition{ 5,5 }, mSpeed{ 100,100 }, mOffset{ 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize)
 {}
 
-Ball::Ball(float size, Coordinates position) : mSize{ size }, mPosition{ position }, mSpeed{ 2,2 }, mOffset { 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize)
+Ball::Ball(float size, Coordinates position) : mSize{ size }, mPosition{ position }, mSpeed{ 100,100 }, mOffset { 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize)
 {}
 
 void Ball::move()
 {
-	mRectangle.x += mSpeed.x * mOffset.x;
-	mRectangle.y += mSpeed.y * mOffset.y;
+	mRectangle.x += (mSpeed.x * ofGetLastFrameTime()) * mOffset.x ;
+	mRectangle.y += (mSpeed.y * ofGetLastFrameTime()) * mOffset.y ;
 }
 
 void Ball::increaseSpeed()
 {
-	mSpeed.x += 0.5;
-	mSpeed.y += 0.5;
+	mSpeed.x += 25;
+	mSpeed.y += 25;
 }
 
 void Ball::reverseX()
@@ -56,7 +56,7 @@ void Ball::reset()
 void Ball::newGame()
 {
 	reset();
-	mSpeed = { 2,2 };
+	mSpeed = { 100,100 };
 }
 
 bool Ball::hitTop()
