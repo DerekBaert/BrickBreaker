@@ -1,8 +1,11 @@
 ﻿#pragma once
 #include "Coordinates.h"
 #include "RectangleSize.h"
-#include "Sides.h"
 #include <ofMain.h>
+
+/**
+ * \brief Class for the destructible bricks which appear in the game.
+ */
 class Brick
 {
 	RectangleSize mSize;

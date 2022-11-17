@@ -22,9 +22,6 @@
     <ClCompile Include="src\Ball.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Sides.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -51,9 +48,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Ball.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Sides.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\ofxCenteredTrueTypeFont.h">

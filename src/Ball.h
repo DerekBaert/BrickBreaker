@@ -2,8 +2,10 @@
 #include "Coordinates.h"
 #include "ofRectangle.h"
 #include "RectangleSize.h"
-#include "Sides.h"
 
+/**
+ * \brief Class for the ball object in the game.
+ */
 class Ball
 {
 	float mSize;

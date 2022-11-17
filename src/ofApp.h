@@ -7,7 +7,6 @@
 #include "ofMain.h"
 #include "ofxCenteredTrueTypeFont.h"
 #include "Paddle.h"
-#include "Sides.h"
 
 
 class ofApp : public ofBaseApp

@@ -2,6 +2,10 @@
 #include "Coordinates.h"
 #include "ofRectangle.h"
 #include "RectangleSize.h"
+
+/**
+ * \brief Class for the player's paddle in the game.
+ */
 class Paddle 
 {
 	RectangleSize mSize;
