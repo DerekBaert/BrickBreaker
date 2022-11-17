@@ -1,12 +1,11 @@
 #pragma once
-
-
 #include "Ball.h"
 #include "Brick.h"
 #include "GameManager.h"
 #include "ofMain.h"
 #include "ofxCenteredTrueTypeFont.h"
 #include "Paddle.h"
+#include "ofxGui.h"
 
 
 class ofApp : public ofBaseApp
@@ -16,19 +15,29 @@ class ofApp : public ofBaseApp
 		void setup();
 		void update();
 		void draw();
-
 		void keyPressed(int key);
+
+		/**
+		 * \brief Starts the game on easy mode.
+		 */
+		void easyMode();
+
+		/**
+		 * \brief Starts the game on normal mode.
+		 */
+		void normalMode();
+
+		/**
+		 * \brief Resets the game on game over or game complete.
+		 */
 		void resetGame();
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
+
+		/**
+		 * \brief Moves the paddle to follow the mouse.
+		 * \param x The X position of the mouse.
+		 * \param y The Y position of the mouse.
+		 */
+		void mouseMoved(int x, int y);
 
 		Ball ball;
 		Paddle paddle;
@@ -37,16 +46,6 @@ class ofApp : public ofBaseApp
 		const int OF_KEY_SPACE {32};
 
 		GameManager manager;
-		/*bool paused{ true };
-		bool gameStart{ true };
-		int points {0};
-		int lives {3};
-		bool gameOver {false};
-		bool gameWon{ false };
-		bool easy {false};
-		bool redFlag {false};
-		bool orangeFlag{false};
-		int brickCounter{ 0 };*/
 
 		float brickStart;
 		float fifthOfScreen;		
@@ -62,5 +61,7 @@ class ofApp : public ofBaseApp
 		ofSoundPlayer backgroundMusic;
 		ofSoundPlayer titleMusic;
 
+		ofxButton easyStart;
+		ofxButton normalStart;
 		
 };

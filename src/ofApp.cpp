@@ -12,19 +12,26 @@
 
 void ofApp::setup()
 {
-	manager = GameManager();
+	//  Setting up buttons and font elements for title screen	
+	easyStart.addListener(this, &ofApp::easyMode);
+	normalStart.addListener(this, &ofApp::normalMode);
+	easyStart.setup("Easy");
+	normalStart.setup("Normal");
+	easyStart.loadFont("pixel2.ttf", 20);
+	normalStart.loadFont("pixel2.ttf", 20);
+	easyStart.setPosition(ofGetWidth() / 2 - easyStart.getWidth(), ofGetHeight() * 0.75);
+	normalStart.setPosition(ofGetWidth() / 2 + 10, ofGetHeight() * 0.75);
+
 	titleFont.load("pixel2.ttf", 75);
 	titleFont.setLetterSpacing(1.5);
-	gameFont.load("pixel2.ttf",20);
+	gameFont.load("pixel2.ttf", 20);
 
+	// Creating game manager
+	manager = GameManager();
+	
 	// Calculating starting point for brick grid, and what 1/5 of the screen is for later calculations.
 	brickStart = ofGetHeight() / 10;
 	fifthOfScreen = brickStart / 2;
-
-	// Setting up the variables for creating the paddle, and the speed of the paddle as well
-	paddleSize = { 15,100 };
-	Coordinates paddlePosition{ static_cast<float>((ofGetWidth() / 2) - (paddleSize.width / 2)), static_cast<float>(ofGetHeight() - 40) };
-	float paddleSpeed = 10;
 
 	// Sound effect players
 	hitSound.load("bounce.wav");
@@ -33,19 +40,23 @@ void ofApp::setup()
 	backgroundMusic.load("Arcade-Puzzler.mp3");
 	titleMusic.load("Arcade-Heroes.mp3");
 
+	// Sets and starts title music if game has not started
 	if(!manager.isGameStarted())
 	{
 		titleMusic.setLoop(true);
 		titleMusic.play();
 	}
-	
+
+	// Setting up the variables for creating the paddle, and the speed of the paddle as well
+	paddleSize = { 15,100 };
+	Coordinates paddlePosition{ static_cast<float>((ofGetWidth() / 2) - (paddleSize.width / 2)), static_cast<float>(ofGetHeight() - 40) };
+	float paddleSpeed = 10;
+	paddle = { paddleSize, paddlePosition, paddleSpeed };
+
 	// Setting up the variables for creating the ball
 	float ballSize{ 10 };
 	Coordinates ballPosition{ paddlePosition.x + (paddleSize.width / 2) - (ballSize / 2),(paddlePosition.y - ballSize)-1 };
-
-	ball = { ballSize,ballPosition};
-
-	paddle = { paddleSize, paddlePosition, paddleSpeed };
+	ball = { ballSize,ballPosition};	
 
 	// Calculating the buffer (space between each brick) and calculating the width of the brick including buffer
 	buffer = ofGetWidth() / 400;
@@ -60,6 +71,7 @@ void ofApp::setup()
 		{			
 			Brick brick;
 
+			// Checking what color of brick to add based on the iteration
 			switch (i)
 			{
 			case 1:
@@ -131,9 +143,13 @@ void ofApp::draw()
 		titleFont.drawStringCentered("Brick Breaker", ofGetWidth() / 2, brickStart * 2);
 		gameFont.drawStringCentered("Controls:", ofGetWidth() / 2, ofGetHeight() * 0.65);
 		gameFont.drawStringCentered("Move Paddle: <- -> keys, or move mouse", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight());
-		gameFont.drawStringCentered("Press Spacebar to Pause game", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight()* 2);
-		gameFont.drawStringCentered("Press Enter to start Normal mode.", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight() * 3.5);
-		gameFont.drawStringCentered("Press 'E' to start Easy mode.", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight() * 4.5);
+		gameFont.drawStringCentered("Press Space bar to Pause game", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight()* 2);
+		/*gameFont.drawStringCentered("Press Enter to start Normal mode.", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight() * 3.5);
+		gameFont.drawStringCentered("Press 'E' to start Easy mode.", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight() * 4.5);*/
+		//gui.draw();
+		easyStart.draw();
+		normalStart.draw();
+		
 	}
 }
 
@@ -284,17 +300,23 @@ void ofApp::keyPressed(int key)
 		}
 
 		manager.pauseButton();
-	}
+	}	
+}
 
-	if(key == OF_KEY_RETURN && !manager.isGameStarted())
+void ofApp::easyMode()
+{
+	if (!manager.isGameStarted())
 	{
+		manager.easyModeOn();
 		manager.pauseButton();
 		manager.gameStarted();
 	}
+}
 
-	if((key == 'E' || key == 'e') && !manager.isGameStarted())
+void ofApp::normalMode()
+{
+	if (!manager.isGameStarted())
 	{
-		manager.easyModeOn();
 		manager.pauseButton();
 		manager.gameStarted();
 	}
@@ -322,55 +344,10 @@ void ofApp::resetGame()
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
 	if(mouseX > 0 && mouseX + paddle.getWidth() < ofGetWidth() && !manager.isGamePaused())
 	{
 		paddle.mouseMove(mouseX);
 	}	
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
 }
