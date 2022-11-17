@@ -181,6 +181,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Ball.cpp" />
+    <ClCompile Include="src\GameManager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\Paddle.cpp" />
@@ -191,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Ball.h" />
+    <ClInclude Include="src\GameManager.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\ofxCenteredTrueTypeFont.h" />
     <ClInclude Include="src\Paddle.h" />

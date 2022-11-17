@@ -25,6 +25,9 @@
     <ClCompile Include="src\Sides.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -54,6 +57,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\ofxCenteredTrueTypeFont.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameManager.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

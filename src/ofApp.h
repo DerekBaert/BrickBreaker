@@ -3,6 +3,7 @@
 
 #include "Ball.h"
 #include "Brick.h"
+#include "GameManager.h"
 #include "ofMain.h"
 #include "ofxCenteredTrueTypeFont.h"
 #include "Paddle.h"
@@ -34,9 +35,11 @@ class ofApp : public ofBaseApp
 		Paddle paddle;
 		std::vector<Brick> bricks{};
 		RectangleSize paddleSize;
-		bool paused{ true };
-		bool gameStart {true};
 		const int OF_KEY_SPACE {32};
+
+		GameManager manager;
+		/*bool paused{ true };
+		bool gameStart{ true };
 		int points {0};
 		int lives {3};
 		bool gameOver {false};
@@ -44,7 +47,8 @@ class ofApp : public ofBaseApp
 		bool easy {false};
 		bool redFlag {false};
 		bool orangeFlag{false};
-		int brickCounter{ 0 };
+		int brickCounter{ 0 };*/
+
 		float brickStart;
 		float fifthOfScreen;		
 		float brickWidth;

@@ -12,6 +12,7 @@
 
 void ofApp::setup()
 {
+	manager = GameManager();
 	titleFont.load("pixel2.ttf", 75);
 	titleFont.setLetterSpacing(1.5);
 	gameFont.load("pixel2.ttf",20);
@@ -21,8 +22,8 @@ void ofApp::setup()
 	fifthOfScreen = brickStart / 2;
 
 	// Setting up the variables for creating the paddle, and the speed of the paddle as well
-	paddleSize = { 20,100 };
-	Coordinates paddlePosition{ static_cast<float>((ofGetWidth() / 2) - (paddleSize.width / 2)), static_cast<float>(ofGetHeight() - 50) };
+	paddleSize = { 15,100 };
+	Coordinates paddlePosition{ static_cast<float>((ofGetWidth() / 2) - (paddleSize.width / 2)), static_cast<float>(ofGetHeight() - 40) };
 	float paddleSpeed = 10;
 
 	// Sound effect players
@@ -32,7 +33,7 @@ void ofApp::setup()
 	backgroundMusic.load("Arcade-Puzzler.mp3");
 	titleMusic.load("Arcade-Heroes.mp3");
 
-	if(gameStart)
+	if(!manager.isGameStarted())
 	{
 		titleMusic.setLoop(true);
 		titleMusic.play();
@@ -94,10 +95,10 @@ void ofApp::draw()
 	ofBackground(0);
 	ofSetColor(255);
 
-	if(!gameStart)
+	if(manager.isGameStarted())
 	{
-		gameFont.drawString("Points: " + std::to_string(points), 10, fifthOfScreen);
-		gameFont.drawString("Lives: " + std::to_string(lives), ofGetWidth() - 150, fifthOfScreen);
+		gameFont.drawString("Points: " + std::to_string(manager.getScore()), 10, fifthOfScreen);
+		gameFont.drawString("Lives: " + std::to_string(manager.getLives()), ofGetWidth() - 150, fifthOfScreen);
 
 		for (auto brick : bricks)
 		{
@@ -107,14 +108,14 @@ void ofApp::draw()
 		paddle.draw();
 		ball.draw();
 
-		if (paused)
+		if (manager.isGamePaused())
 		{
-			if (gameOver)
+			if (manager.isGameOver())
 			{				
 				gameFont.drawStringCentered("Game over", ofGetWidth() / 2, ofGetHeight() / 2);
 				gameFont.drawStringCentered("Press Space to restart.", ofGetWidth() / 2, ofGetHeight() / 2 + gameFont.getLineHeight());
 			}
-			else if (gameWon)
+			else if (manager.isGameWon())
 			{				
 				gameFont.drawStringCentered("You Won!", ofGetWidth() / 2, ofGetHeight() / 2);
 				gameFont.drawStringCentered("Press Space to play again.", ofGetWidth() / 2, ofGetHeight() / 2 + gameFont.getLineHeight());
@@ -139,20 +140,25 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	if(!gameStart)
+	if(manager.isGameStarted() && !manager.isGameOver() && !manager.isGameWon())
 	{
-		if(titleMusic.isPlaying())
+		if(!backgroundMusic.isLoaded())
+		{
+			backgroundMusic.load("Arcade-Puzzler.mp3");
+		}
+		if (titleMusic.isPlaying())
 		{
 			titleMusic.stop();
 		}
-		ofDrawBitmapString(backgroundMusic.isLoaded() ? "True" : "False", 200, 200);
+		//ofDrawBitmapString(backgroundMusic.isLoaded() ? "True" : "False", 200, 200);
 
-		if(!backgroundMusic.isPlaying() && !gameOver && !gameWon)
+		if (!backgroundMusic.isPlaying())
 		{
 			backgroundMusic.setLoop(true);
 			backgroundMusic.play();
-		}		
+		}
 	}
+
 	ball.hitSide();
 
 	ofRectangle ballRect = ball.getRect();
@@ -190,67 +196,67 @@ void ofApp::update()
 			}
 
 			// After hitSound is determined, add the brick's point value to the player's score.
-			points += brick.getPoints();
+			manager.addPoints(brick.getPoints());
 
-			if(brick.getPoints() == 7 && !redFlag)
+			if(brick.getPoints() == 7 && !manager.wasRedHit())
 			{
 				ball.increaseSpeed();
-				redFlag = true;
+				manager.redHit();
 			}
 
-			if(brick.getPoints() == 5 && !orangeFlag)
+			if(brick.getPoints() == 5 && !manager.wasOrangeHit())
 			{
 				ball.increaseSpeed();
-				orangeFlag = true;
+				manager.orangeHit();
 			}
 
-			if(brickCounter == 4 || brickCounter == 12)
+			if(manager.brickCount() == 4 || manager.brickCount() == 12)
 			{
 				ball.increaseSpeed();
 			}
 			hitSound.play();
-			brickCounter++;
+			manager.incrementBrickCounter();
 			break;		
 		}
 	}
 
 	// Checking if top of the canvas is hitSound
-	if(ball.hitTop() && !easy)
+	if(ball.hitTop() && !manager.isEasyMode())
 	{
 		paddle.shrink();
 	}
 
 	// Checking if the bottom of the canvas is hitSound
-	if(ball.hitBottom() && !gameOver)
+	if(ball.hitBottom() && !manager.isGameOver())
 	{
 		// If lives are above 0, reset the ball's location to the start and decrement the life counter
-		if(lives > 0)
+		if(manager.getLives() > 0)
 		{
 			ball.reset();
-			lives--;
+			manager.loseALife();
 		}
 		// If the lives are 0 or less, set paused and game over to true.
 		else
 		{
 			backgroundMusic.stop();
 			gameOverSound.play();
-			paused = true;
-			gameOver = true;			
+			manager.pauseButton();
+			manager.loseGame();			
 		}		
 	}
 
 	// Ball only moves if game is not paused
-	if(!paused)
+	if(!manager.isGamePaused())
 	{
 		ball.move();
 	}
 
 	// Checking if all bricks are gone, and if so make the game as complete
-	if(brickCounter >= static_cast<int>(bricks.size()) && !gameWon)
+	if(manager.brickCount() >= static_cast<int>(bricks.size()) && !manager.isGameWon())
 	{
 		backgroundMusic.stop();
-		gameWon = true;
-		paused = true;
+		manager.winGame();
+		manager.pauseButton();
 		winSound.play();
 	}
 }
@@ -259,61 +265,60 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-	if(key == OF_KEY_LEFT && !paused && !gameOver)
+	if(key == OF_KEY_LEFT && !manager.isGamePaused() && !manager.isGameOver())
 	{
 		paddle.move(-1);
 	}
-	if (key == OF_KEY_RIGHT && !paused && !gameOver)
+	if (key == OF_KEY_RIGHT && !manager.isGamePaused() && !manager.isGameOver())
 	{
 		paddle.move(1);
 	}
 
 
-	if(key == OF_KEY_SPACE && !gameStart)
+	if(key == OF_KEY_SPACE && manager.isGameStarted())
 	{
-		if(gameOver || gameWon)
+		if(manager.isGameOver() || manager.isGameWon())
 		{
 			resetGame();
+
 		}
 
-		paused = !paused;
+		manager.pauseButton();
 	}
 
-	if(key == OF_KEY_RETURN && gameStart)
+	if(key == OF_KEY_RETURN && !manager.isGameStarted())
 	{
-		paused = !paused;
-		gameStart = !gameStart;
+		manager.pauseButton();
+		manager.gameStarted();
 	}
 
-	if((key == 'E' || key == 'e') && gameStart)
+	if((key == 'E' || key == 'e') && !manager.isGameStarted())
 	{
-		easy = true;
-		lives += 7;
-		gameStart = !gameStart;
-		paused = !paused;
+		manager.easyModeOn();
+		manager.pauseButton();
+		manager.gameStarted();
 	}
 }
 
 void ofApp::resetGame()
 {
-	if(easy)
+	if(manager.isEasyMode())
 	{
-		lives = 10;
+		manager.reset();
+		manager.easyModeOn();
 	}
 	else
 	{
-		lives = 3;
+		manager.reset();
 	}
 	
 	for(auto &brick : bricks)
 	{
 		brick.reset();
 	}
-	gameOver = !gameOver;
 	paddle.reset();
 	ball.newGame();
-	points = 0;
-	
+	backgroundMusic.play();
 }
 
 //--------------------------------------------------------------
@@ -324,7 +329,7 @@ void ofApp::keyReleased(int key){
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-	if(mouseX > 0 && mouseX + paddle.getWidth() < ofGetWidth() && !paused)
+	if(mouseX > 0 && mouseX + paddle.getWidth() < ofGetWidth() && !manager.isGamePaused())
 	{
 		paddle.mouseMove(mouseX);
 	}	
