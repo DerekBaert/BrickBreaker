@@ -12,6 +12,7 @@
 
 void ofApp::setup()
 {
+	ofSetFrameRate(60);
 	//  Setting up buttons and font elements for title screen	
 	easyStart.addListener(this, &ofApp::easyMode);
 	normalStart.addListener(this, &ofApp::normalMode);
@@ -19,8 +20,8 @@ void ofApp::setup()
 	normalStart.setup("Normal");
 	easyStart.loadFont("pixel2.ttf", 20);
 	normalStart.loadFont("pixel2.ttf", 20);
-	easyStart.setPosition(ofGetWidth() / 2 - easyStart.getWidth(), ofGetHeight() * 0.75);
-	normalStart.setPosition(ofGetWidth() / 2 + 10, ofGetHeight() * 0.75);
+	easyStart.setPosition(WINDOW_WIDTH / 2 - easyStart.getWidth(), WINDOW_HEIGHT * 0.75);
+	normalStart.setPosition(WINDOW_WIDTH / 2 + 10, WINDOW_HEIGHT * 0.75);
 
 	titleFont.load("pixel2.ttf", 75);
 	titleFont.setLetterSpacing(1.5);
@@ -30,7 +31,7 @@ void ofApp::setup()
 	manager = GameManager();
 	
 	// Calculating starting point for brick grid, and what 1/5 of the screen is for later calculations.
-	brickStart = ofGetHeight() / 10;
+	brickStart = WINDOW_HEIGHT / 10;
 	fifthOfScreen = brickStart / 2;
 
 	// Sound effect players
@@ -49,7 +50,7 @@ void ofApp::setup()
 
 	// Setting up the variables for creating the paddle, and the speed of the paddle as well
 	paddleSize = { 15,100 };
-	Coordinates paddlePosition{ static_cast<float>((ofGetWidth() / 2) - (paddleSize.width / 2)), static_cast<float>(ofGetHeight() - 40) };
+	Coordinates paddlePosition{ static_cast<float>((WINDOW_WIDTH / 2) - (paddleSize.width / 2)), static_cast<float>(WINDOW_HEIGHT - 40) };
 	float paddleSpeed = 10;
 	paddle = { paddleSize, paddlePosition, paddleSpeed };
 
@@ -59,12 +60,12 @@ void ofApp::setup()
 	ball = { ballSize,ballPosition};	
 
 	// Calculating the buffer (space between each brick) and calculating the width of the brick including buffer
-	buffer = ofGetWidth() / 400;
-	brickWidth = (ofGetWidth()  / 14) - buffer;
-	RectangleSize brickSize{ static_cast<float>(ofGetHeight() / 50), brickWidth };
+	buffer = WINDOW_WIDTH / 400;
+	brickWidth = (WINDOW_WIDTH  / 14) - buffer;
+	RectangleSize brickSize{ static_cast<float>(WINDOW_HEIGHT / 50), brickWidth };
 
 	// Loop through and add bricks to vector, setting color based on the iteration of the inner loop to figure out which row it will be in
-	for(float x = buffer; x < ofGetWidth(); x += brickWidth + buffer)
+	for(float x = buffer; x < WINDOW_WIDTH; x += brickWidth + buffer)
 	{
 		float y = brickStart;
 		for(int i = 1; i < 9; i++)
@@ -110,7 +111,7 @@ void ofApp::draw()
 	if(manager.isGameStarted())
 	{
 		gameFont.drawString("Points: " + std::to_string(manager.getScore()), 10, fifthOfScreen);
-		gameFont.drawString("Lives: " + std::to_string(manager.getLives()), ofGetWidth() - 150, fifthOfScreen);
+		gameFont.drawString("Lives: " + std::to_string(manager.getLives()), WINDOW_WIDTH - 150, fifthOfScreen);
 
 		for (auto brick : bricks)
 		{
@@ -124,29 +125,26 @@ void ofApp::draw()
 		{
 			if (manager.isGameOver())
 			{				
-				gameFont.drawStringCentered("Game over", ofGetWidth() / 2, ofGetHeight() / 2);
-				gameFont.drawStringCentered("Press Space to restart.", ofGetWidth() / 2, ofGetHeight() / 2 + gameFont.getLineHeight());
+				gameFont.drawStringCentered("Game over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+				gameFont.drawStringCentered("Press Space to restart.", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + gameFont.getLineHeight());
 			}
 			else if (manager.isGameWon())
 			{				
-				gameFont.drawStringCentered("You Won!", ofGetWidth() / 2, ofGetHeight() / 2);
-				gameFont.drawStringCentered("Press Space to play again.", ofGetWidth() / 2, ofGetHeight() / 2 + gameFont.getLineHeight());
+				gameFont.drawStringCentered("You Won!", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+				gameFont.drawStringCentered("Press Space to play again.", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + gameFont.getLineHeight());
 			}
 			else
 			{
-				gameFont.drawStringCentered("Paused", ofGetWidth() / 2, ofGetHeight() / 2);
+				gameFont.drawStringCentered("Paused", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 			}
 		}
 	}
 	else
 	{
-		titleFont.drawStringCentered("Brick Breaker", ofGetWidth() / 2, brickStart * 2);
-		gameFont.drawStringCentered("Controls:", ofGetWidth() / 2, ofGetHeight() * 0.65);
-		gameFont.drawStringCentered("Move Paddle: <- -> keys, or move mouse", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight());
-		gameFont.drawStringCentered("Press Space bar to Pause game", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight()* 2);
-		/*gameFont.drawStringCentered("Press Enter to start Normal mode.", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight() * 3.5);
-		gameFont.drawStringCentered("Press 'E' to start Easy mode.", ofGetWidth() / 2, ofGetHeight() * 0.65 + gameFont.getLineHeight() * 4.5);*/
-		//gui.draw();
+		titleFont.drawStringCentered("Brick Breaker", WINDOW_WIDTH / 2, brickStart * 2);
+		gameFont.drawStringCentered("Controls:", WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.65);
+		gameFont.drawStringCentered("Move Paddle: <- -> keys, or move mouse", WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.65 + gameFont.getLineHeight());
+		gameFont.drawStringCentered("Press Space bar to Pause game", WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.65 + gameFont.getLineHeight()* 2);
 		easyStart.draw();
 		normalStart.draw();
 		
@@ -179,12 +177,16 @@ void ofApp::update()
 
 	ofRectangle ballRect = ball.getRect();
 
-	if(paddle.hit(ball.getRect()))
+	if(paddle.hit(ballRect))
 	{
+		ofRectangle intersection = paddle.getIntersection(ballRect);
+		ball.pushOut(intersection, paddle.getRect());
 		hitSound.play();
 		if (paddle.sideHit(ballRect))
 		{
+			
 			ball.reverseX();
+
 		}
 
 		// If the brick registers the top or bottom as being hitSound, the ball reverse it's trajectory on the Y axis.
@@ -346,7 +348,7 @@ void ofApp::resetGame()
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-	if(mouseX > 0 && mouseX + paddle.getWidth() < ofGetWidth() && !manager.isGamePaused())
+	if(mouseX > 0 && mouseX + paddle.getWidth() < WINDOW_WIDTH && !manager.isGamePaused())
 	{
 		paddle.mouseMove(mouseX);
 	}	

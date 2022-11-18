@@ -14,12 +14,12 @@ Paddle::Paddle(RectangleSize size, Coordinates position, float speed)
 
 void Paddle::move(const int modifier)
 {
-	mRectangle.x += mSpeed * modifier;
+	mRectangle.setX(mRectangle.getX() + mSpeed * modifier);
 }
 
 void Paddle::shrink()
 {
-	mRectangle.width = mHalf;
+	mRectangle.setWidth(mHalf);
 }
 
 void Paddle::draw()
@@ -34,20 +34,31 @@ bool Paddle::hit(const ofRectangle rect)
 	return mRectangle.intersects(rect);
 }
 
+ofRectangle Paddle::getIntersection(const ofRectangle rect)
+{
+	return mRectangle.getIntersection(rect);
+}
+
+
 void Paddle::reset()
 {
-	mRectangle.x = mPosition.x;
-	mRectangle.y = mPosition.y;
+	mRectangle.setX(mPosition.x);
+	mRectangle.setY(mPosition.y);
 }
 
 void Paddle::mouseMove(const int newX)
 {
-	mRectangle.x = newX;
+	mRectangle.setX(newX);
 }
 
 float Paddle::getWidth()
 {
 	return mRectangle.width;
+}
+
+ofRectangle Paddle::getRect()
+{
+	return mRectangle;
 }
 
 bool Paddle::topHit(const ofRectangle rect)

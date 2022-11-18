@@ -51,6 +51,12 @@ public:
 	bool hit(const ofRectangle rect);
 
 	/**
+	 * \brief Returns an ofRectangle respresenting the intersection of the ball and the paddle.
+	 * \return ofRectangle of the area where the ball and paddle intersect
+	 */
+	ofRectangle getIntersection(const ofRectangle rect);
+
+	/**
 	 * \brief Resets the paddle to it's starting position.
 	 */
 	void reset();
@@ -66,6 +72,12 @@ public:
 	 * \return Width of the paddle
 	 */
 	float getWidth();
+
+	/**
+	 * \brief Returns the rectangle object the class draws to the canvas. Typically used for intersection checks.
+	 * \return The rectangle object the class draws to the canvas.
+	 */
+	ofRectangle getRect();
 
 	/**
 	 * \brief Indicates if the ball has hit the top of the paddle.

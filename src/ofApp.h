@@ -10,7 +10,8 @@
 
 class ofApp : public ofBaseApp
 {
-
+	const int WINDOW_HEIGHT{ ofGetHeight() };
+	const int WINDOW_WIDTH{ ofGetWidth() };
 	public:
 		void setup();
 		void update();

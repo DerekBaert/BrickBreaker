@@ -2,6 +2,7 @@
 
 #include "ofAppRunner.h"
 #include "ofGraphics.h"
+#include "ofMath.h"
 
 
 Ball::Ball() : mSize{ 10 }, mPosition{ 5,5 }, mSpeed{ 100,100 }, mOffset{ 1,-1 }, mRectangle(mPosition.x, mPosition.y, mSize, mSize)
@@ -12,8 +13,8 @@ Ball::Ball(float size, Coordinates position) : mSize{ size }, mPosition{ positio
 
 void Ball::move()
 {
-	mRectangle.x += (mSpeed.x * ofGetLastFrameTime()) * mOffset.x ;
-	mRectangle.y += (mSpeed.y * ofGetLastFrameTime()) * mOffset.y ;
+	mRectangle.setX(mRectangle.getX() + (mSpeed.x * ofGetLastFrameTime()) * mOffset.x);
+	mRectangle.setY(mRectangle.getY() + (mSpeed.y * ofGetLastFrameTime()) * mOffset.y);
 }
 
 void Ball::increaseSpeed()
@@ -40,7 +41,7 @@ void Ball::draw()
 
 void Ball::hitSide()
 {
-	if(mRectangle.x > ofGetWidth() - (mSize / 2) || mRectangle.x < 0 + (mSize / 2))
+	if(mRectangle.getX() > ofGetWidth() - (mSize / 2) || mRectangle.getX() < 0 + (mSize / 2))
 	{
 		reverseX();
 	}
@@ -48,8 +49,8 @@ void Ball::hitSide()
 
 void Ball::reset()
 {
-	mRectangle.x = mPosition.x;
-	mRectangle.y = mPosition.y;
+	mRectangle.setX(mPosition.x);
+	mRectangle.setY(mPosition.y);
 	mOffset = { 1,-1 };
 }
 
@@ -61,25 +62,37 @@ void Ball::newGame()
 
 bool Ball::hitTop()
 {
-	if(mRectangle.y <= 0)
+	if(mRectangle.getY() <= 0)
 	{
 		reverseY();
 	}
-	return mRectangle.y <= 0 + (mSize / 2);
+	return mRectangle.getY() <= 0 + (mSize / 2);
 }
 
 bool Ball::hitBottom()
 {
-	return mRectangle.y >= ofGetHeight();
+	return mRectangle.getY() >= ofGetHeight();
 }
 
 Coordinates Ball::getPosition()
 {
-	return {mRectangle.x, mRectangle.y};
+	return {mRectangle.getX(), mRectangle.getY()};
 }
 
  ofRectangle Ball::getRect()
 {
 	return mRectangle;
+}
+
+void Ball::pushOut(ofRectangle intersection, ofRectangle paddleRect)
+{
+	if (mRectangle.getTop() >= paddleRect.getTop() + paddleRect.getHeight() / 2)
+	{
+		mRectangle.setY(intersection.getY() + intersection.getHeight());
+	}
+	else
+	{
+		mRectangle.setY(intersection.getY() - mRectangle.getHeight());
+	}
 }
 

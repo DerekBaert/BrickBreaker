@@ -90,4 +90,10 @@ public:
 	 */
 	ofRectangle getRect();
 
+	/**
+	 * \brief Pushes ball out of paddle
+	 * \param rect ofRectangle representing intersection of paddle and ball
+	 */
+	void pushOut(ofRectangle intersection, ofRectangle paddleRect);
+
 };
