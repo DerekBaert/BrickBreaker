@@ -116,7 +116,10 @@ void ofApp::update()
 		backgroundMusic.stop();
 		manager.winGame();
 		manager.pauseButton();
-		winSound.play();
+		if(!manager.isMuted())
+		{
+			winSound.play();
+		}
 	}
 }
 
@@ -349,7 +352,11 @@ void ofApp::paddleHitCheck(ofRectangle& ballRect)
 	{
 		ofRectangle intersection = paddle.getIntersection(ballRect);
 		ball.pushOut(intersection, paddle.getRect());
-		hitSound.play();
+
+		if(!manager.isMuted())
+		{
+			hitSound.play();
+		}
 
 		// If the brick registers the top or bottom as being hitSound, the ball reverse it's trajectory on the Y axis.
 		if (paddle.sideHit(ballRect))
@@ -407,7 +414,10 @@ void ofApp::brickHitCheck(ofRectangle ballRect)
 			{
 				ball.increaseSpeed();
 			}
-			hitSound.play();
+			if(!manager.isMuted())
+			{
+				hitSound.play();
+			}
 			manager.incrementBrickCounter();
 			break;
 		}
@@ -438,7 +448,10 @@ void ofApp::borderHitCheck()
 		else
 		{
 			backgroundMusic.stop();
-			gameOverSound.play();
+			if(!manager.isMuted())
+			{
+				gameOverSound.play();
+			}
 			manager.pauseButton();
 			manager.loseGame();
 		}
