@@ -88,15 +88,15 @@ Coordinates Ball::getPosition()
 	return mRectangle;
 }
 
-void Ball::pushOut(ofRectangle intersection, ofRectangle paddleRect)
+void Ball::pushOut(ofRectangle intersection, ofRectangle rect)
 {
-	if (mRectangle.getTop() >= paddleRect.getTop() + paddleRect.getHeight() / 2)
+	if (mRectangle.getTop() >= rect.getTop() + rect.getHeight() / 2)
 	{
-		mRectangle.setY(intersection.getY() + intersection.getHeight());
+		mRectangle.setY(intersection.getTop() + intersection.getHeight());
 	}
 	else
 	{
-		mRectangle.setY(intersection.getY() - mRectangle.getHeight());
+		mRectangle.setY(intersection.getTop() - mRectangle.getHeight());
 	}
 }
 
