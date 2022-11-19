@@ -10,13 +10,64 @@
 
 class ofApp : public ofBaseApp
 {
-	const int WINDOW_HEIGHT{ ofGetHeight() };
-	const int WINDOW_WIDTH{ ofGetWidth() };
 	public:
+	
 		void setup();
 		void update();
 		void draw();
 		void keyPressed(int key);
+
+		/**
+		 * \brief Plays the game's background music depending on what screen is displayed.
+		 */
+		void playGameMusic();
+
+		/**
+		 * \brief Checks if the ball has hit one of the borders and adjusts the ball's direction if it has.
+		 */
+		void borderHitCheck();
+
+		/**
+		 * \brief Checks if the ball has hit the paddle.
+		 * \param ballRect ofRectangle of the ball
+		 */
+		void paddleHitCheck(ofRectangle& ballRect);
+
+		/**
+		 * \brief Checks if the ball has hit a brick.
+		 * \param ballRect ofRectangle of the ball.
+		 */
+		void brickHitCheck(ofRectangle ballRect);
+
+		/**
+		 * \brief Displays Title screen to canvas
+		 */
+		void titleScreen();
+
+		/**
+		 * \brief Begins game
+		 */
+		void gamePlay();
+
+		/**
+		 * \brief Creates the buttons for the title screen
+		 */
+		void createButtons();
+
+		/**
+		 * \brief Loads sounds and music players for the game.
+		 */
+		void loadSounds();
+
+		/**
+		 * \brief Creates the ball paddle objects
+		 */
+		void createBallAndPaddle();
+
+		/**
+		 * \brief Populates the bricks array with Brick objects
+		 */
+		void loadBricks();
 
 		/**
 		 * \brief Starts the game on easy mode.
@@ -40,6 +91,8 @@ class ofApp : public ofBaseApp
 		 */
 		void mouseMoved(int x, int y);
 
+		const int WINDOW_HEIGHT{ ofGetHeight() };
+		const int WINDOW_WIDTH{ ofGetWidth() };
 		Ball ball;
 		Paddle paddle;
 		std::vector<Brick> bricks{};

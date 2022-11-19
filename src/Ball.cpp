@@ -41,10 +41,11 @@ void Ball::draw()
 
 void Ball::hitSide()
 {
-	if(mRectangle.getX() > ofGetWidth() - (mSize / 2) || mRectangle.getX() < 0 + (mSize / 2))
+	if(mRectangle.getX() >= ofGetWidth() - mRectangle.getWidth() || mRectangle.getX() <= 0)
 	{
 		reverseX();
 	}
+	ofClamp(mRectangle.x, 0,ofGetWidth() - mRectangle.getWidth());
 }
 
 void Ball::reset()
@@ -66,6 +67,7 @@ bool Ball::hitTop()
 	{
 		reverseY();
 	}
+	ofClamp(mRectangle.x, 0, ofGetHeight() - mRectangle.getHeight());
 	return mRectangle.getY() <= 0 + (mSize / 2);
 }
 
