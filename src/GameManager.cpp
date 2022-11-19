@@ -2,7 +2,7 @@
 
 GameManager::GameManager()
 	: mIsPaused{ true }, mIsGameStarted{ false }, mScore{ 0 }, mLives{ 3 }, mIsGameOver{ false }, mIsGameWon{ false }, mIsEasyMode{ false }, mWasRedHit{ false },
-		mWasOrangeHit{ false }, mBrickCounter{ 0 }
+	mWasOrangeHit{ false }, mBrickCounter{ 0 }, mIsMuted{ false }
 {}
 
 void GameManager::pauseButton()
@@ -71,6 +71,12 @@ void GameManager::easyModeOn()
 	mLives = 10;
 }
 
+void GameManager::easyModeOff()
+{
+	mIsEasyMode = false;
+	mLives = 3;
+}
+
 bool GameManager::isEasyMode()
 {
 	return mIsEasyMode;
@@ -108,16 +114,35 @@ int GameManager::brickCount()
 
 void GameManager::reset()
 {
-	bool mIsPaused = true;
-	bool mIsGameStarted = true;
-	int mScore = 0;
-	int mLives = 3;
-	bool mIsGameOver = false;
-	bool mIsGameWon = false;
-	bool mIsEasyMode = false;
-	bool mWasRedHit = false;
-	bool mWasOrangeHit = false;
-	int mBrickCounter = 0;
+	mIsPaused = true;
+	mIsGameStarted = true;
+	mScore = 0;
+	
+	if(isEasyMode())
+	{
+		mLives = 10;
+	}
+	else
+	{
+		mLives = 3;
+	}
+	
+	mIsGameOver = false;
+	mIsGameWon = false;
+	//mIsEasyMode = false;
+	mWasRedHit = false;
+	mWasOrangeHit = false;
+	mBrickCounter = 0;
+}
+
+void GameManager::muteUnmute()
+{
+	mIsMuted = !mIsMuted;
+}
+
+bool GameManager::isMuted()
+{
+	return mIsMuted;
 }
 
 

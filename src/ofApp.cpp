@@ -62,10 +62,46 @@ void ofApp::update()
 {
 	playGameMusic();
 
+	if (manager.isMuted())
+	{
+		if(backgroundMusic.isPlaying())
+		{
+			backgroundMusic.setVolume((0));
+		}
+
+		if(titleMusic.isPlaying())
+		{
+			titleMusic.setVolume(0);
+		}		
+	}
+	else
+	{
+		if (backgroundMusic.isPlaying())
+		{
+			backgroundMusic.setVolume(1);
+		}
+
+		if (titleMusic.isPlaying())
+		{
+			titleMusic.setVolume(1);
+		}
+	}
+	
 	// Ball only moves if game is not paused
 	if (!manager.isGamePaused())
 	{
 		ball.move();
+		if (!manager.isMuted())
+		{
+			backgroundMusic.setVolume((1));
+		}
+	}
+	else
+	{
+		if (!manager.isMuted())
+		{
+			backgroundMusic.setVolume((0.25));
+		}
 	}
 
 	// Checks if the ball has hit the paddle, a brick, or one of the sides.
@@ -100,14 +136,13 @@ void ofApp::keyPressed(int key)
 
 	if(key == OF_KEY_SPACE && manager.isGameStarted())
 	{
-		if(manager.isGameOver() || manager.isGameWon())
-		{
-			resetGame();
-
-		}
-
 		manager.pauseButton();
-	}	
+	}
+
+	if(key == 'm' || key == 'M')
+	{
+		manager.muteUnmute();
+	}
 }
 
 void ofApp::easyMode()
@@ -118,28 +153,39 @@ void ofApp::easyMode()
 		manager.pauseButton();
 		manager.gameStarted();
 	}
+	else
+	{
+		manager.easyModeOn();
+		resetGame();
+	}
 }
 
 void ofApp::normalMode()
 {
 	if (!manager.isGameStarted())
 	{
-		manager.pauseButton();
+		manager.easyModeOff();
 		manager.gameStarted();
+		manager.pauseButton();
+	}
+	else
+	{
+		manager.easyModeOff();
+		resetGame();
 	}
 }
 
 void ofApp::resetGame()
 {
-	if(manager.isEasyMode())
-	{
-		manager.reset();
-		manager.easyModeOn();
-	}
-	else
-	{
-		manager.reset();
-	}
+	//if(manager.isEasyMode())
+	//{
+	//	manager.reset();
+	//	manager.easyModeOn();
+	//}
+	//else
+	//{
+	//	manager.reset();
+	//}
 	
 	for(auto &brick : bricks)
 	{
@@ -147,6 +193,8 @@ void ofApp::resetGame()
 	}
 	paddle.reset();
 	ball.newGame();
+	manager.reset();
+	manager.pauseButton();
 	backgroundMusic.play();
 }
 
@@ -242,8 +290,8 @@ void ofApp::createButtons()
 	normalStart.setup("Normal");
 	easyStart.loadFont("pixel2.ttf", 20);
 	normalStart.loadFont("pixel2.ttf", 20);
-	easyStart.setPosition(WINDOW_WIDTH / 2 - easyStart.getWidth(), WINDOW_HEIGHT * 0.75);
-	normalStart.setPosition(WINDOW_WIDTH / 2 + 10, WINDOW_HEIGHT * 0.75);
+	easyStart.setPosition(WINDOW_WIDTH / 2 - easyStart.getWidth() / 2, WINDOW_HEIGHT * 0.85);
+	normalStart.setPosition(WINDOW_WIDTH / 2 + 10, WINDOW_HEIGHT * 0.85);
 }
 
 void ofApp::gamePlay()
@@ -264,12 +312,16 @@ void ofApp::gamePlay()
 		if (manager.isGameOver())
 		{
 			gameFont.drawStringCentered("Game over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-			gameFont.drawStringCentered("Press Space to restart.", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + gameFont.getLineHeight());
+			gameFont.drawStringCentered("Try again?", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + gameFont.getLineHeight());
+			easyStart.draw();
+			normalStart.draw();
 		}
 		else if (manager.isGameWon())
 		{
 			gameFont.drawStringCentered("You Won!", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-			gameFont.drawStringCentered("Press Space to play again.", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + gameFont.getLineHeight());
+			gameFont.drawStringCentered("Play again?", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + gameFont.getLineHeight());
+			easyStart.draw();
+			normalStart.draw();
 		}
 		else
 		{
@@ -283,7 +335,8 @@ void ofApp::titleScreen()
 	titleFont.drawStringCentered("Brick Breaker", WINDOW_WIDTH / 2, brickStart * 2);
 	gameFont.drawStringCentered("Controls:", WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.65);
 	gameFont.drawStringCentered("Move Paddle: <- -> keys, or move mouse", WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.65 + gameFont.getLineHeight());
-	gameFont.drawStringCentered("Press Space bar to Pause game", WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.65 + gameFont.getLineHeight() * 2);
+	gameFont.drawStringCentered("Mute music: 'M/m' key", WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.65 + gameFont.getLineHeight() * 2);
+	gameFont.drawStringCentered("Press Space bar to Pause game", WINDOW_WIDTH / 2, WINDOW_HEIGHT * 0.65 + gameFont.getLineHeight() * 3);
 	easyStart.draw();
 	normalStart.draw();
 }

@@ -14,6 +14,7 @@ class GameManager
 	bool mIsEasyMode;
 	bool mWasRedHit;
 	bool mWasOrangeHit;
+	bool mIsMuted;
 	int mBrickCounter;
 public:
 	GameManager();
@@ -90,6 +91,8 @@ public:
 	 */
 	void easyModeOn();
 
+	void easyModeOff();
+
 	/**
 	 * \brief Checks the mode of the current game.
 	 * \return True if easy mode is on, false if not.
@@ -129,5 +132,12 @@ public:
 	 */
 	int brickCount();
 
+	/**
+	 * \brief Resets the properties to their starting state.
+	 */
 	void reset();
+
+	void muteUnmute();
+
+	bool isMuted();
 };
