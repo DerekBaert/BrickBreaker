@@ -316,6 +316,8 @@ void ofApp::gamePlay()
 		{
 			gameFont.drawStringCentered("Game over", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 			gameFont.drawStringCentered("Try again?", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + gameFont.getLineHeight());
+			easyStart.setPosition(WINDOW_WIDTH / 2 - easyStart.getWidth() / 2, WINDOW_HEIGHT / 2 + gameFont.getLineHeight() * 3);
+			normalStart.setPosition(WINDOW_WIDTH / 2 + 10, WINDOW_HEIGHT / 2 + gameFont.getLineHeight() * 3);
 			easyStart.draw();
 			normalStart.draw();
 		}
@@ -323,6 +325,8 @@ void ofApp::gamePlay()
 		{
 			gameFont.drawStringCentered("You Won!", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 			gameFont.drawStringCentered("Play again?", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + gameFont.getLineHeight());
+			easyStart.setPosition(WINDOW_WIDTH / 2 - easyStart.getWidth() / 2, WINDOW_HEIGHT / 2 + gameFont.getLineHeight() * 3);
+			normalStart.setPosition(WINDOW_WIDTH / 2 + 10, WINDOW_HEIGHT / 2 + gameFont.getLineHeight() * 3);
 			easyStart.draw();
 			normalStart.draw();
 		}
