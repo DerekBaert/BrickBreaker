@@ -299,36 +299,41 @@ void ofApp::paddleHitCheck(ofRectangle& ballRect)
 		hitSound.play();
 
 		// If the brick registers the top or bottom as being hitSound, the ball reverse it's trajectory on the Y axis.
-		if (paddle.topHit(ballRect))
-		{
-			ball.reverseY();
-		}
-		else if (paddle.sideHit(ballRect))
+		if (paddle.sideHit(ballRect))
 		{
 
 			ball.reverseX();
 		}
+		if (paddle.topHit(ballRect))
+		{
+			ball.reverseY();
+		}
+
 	}
 }
 
 void ofApp::brickHitCheck(ofRectangle ballRect)
 {
 	ballRect = ball.getRect();
+
 	for (auto& brick : bricks)
 	{
 		// Checking if brick is not destroyed already and the ball is intersecting with it
 		if (!brick.destroyed() && brick.getRect().intersects(ballRect))
 		{
+			ofRectangle intersection = brick.getRect().getIntersection(ballRect);
 			// If the brick registers the top or bottom as being hitSound, the ball reverse it's trajectory on the Y axis.
-			if (brick.topBottomHit(ballRect))
+			
+			if (brick.topBottomHit(ballRect, intersection))
 			{
 				ball.reverseY();
 			}
-			// If the brick registers the side as being hitSound, the ball reverse it's trajectory on the X axis.
-			else if (brick.sideHit(ballRect))
+			else if (brick.sideHit(ballRect, intersection))
 			{
 				ball.reverseX();
 			}
+			// If the brick registers the side as being hitSound, the ball reverse it's trajectory on the X axis.
+
 
 			// After hitSound is determined, add the brick's point value to the player's score.
 			manager.addPoints(brick.getPoints());

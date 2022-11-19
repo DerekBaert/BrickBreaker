@@ -40,14 +40,14 @@ public:
 	 * \param rect Rectangle to compare against
 	 * \return True if the rectangle is touching the top or bottom, false if not
 	 */
-	bool topBottomHit(const ofRectangle rect);
+	bool topBottomHit(const ofRectangle rect, const ofRectangle intersection);
 
 	/**
 	 * \brief Checks if the given rectangle is touching the side of the brick
 	 * \param rect Rectangle to compare against
 	 * \return True if the rectangle is touching the side, false if not
 	 */
-	bool sideHit(const ofRectangle rect);
+	bool sideHit(const ofRectangle rect, const ofRectangle intersection);
 
 	/**
 	 * \brief Return the rectangle object being drawn to the screen.
