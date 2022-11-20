@@ -13,6 +13,8 @@ Ball::Ball(float size, Coordinates position) : mSize{ size }, mPosition{ positio
 
 void Ball::move()
 {
+	ofClamp(mRectangle.x, 0, ofGetWidth() - mRectangle.getWidth());
+	ofClamp(mRectangle.y, 0, ofGetHeight());
 	mRectangle.setX(mRectangle.getX() + (mSpeed.x * ofGetLastFrameTime()) * mOffset.x);
 	mRectangle.setY(mRectangle.getY() + (mSpeed.y * ofGetLastFrameTime()) * mOffset.y);
 }
@@ -44,7 +46,6 @@ void Ball::hitSide()
 	if(mRectangle.getRight() >= ofGetWidth() || mRectangle.getLeft() <= 0)
 	{
 		reverseX();
-		ofClamp(mRectangle.x, 0, ofGetWidth() - mRectangle.getWidth());
 	}
 
 }
@@ -67,7 +68,6 @@ bool Ball::hitTop()
 	if(mRectangle.getTop() <= 0)
 	{
 		reverseY();
-		ofClamp(mRectangle.y, 0, ofGetHeight());
 	}
 
 	return mRectangle.getY() <= 0 + (mSize / 2);

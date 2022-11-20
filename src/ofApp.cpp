@@ -60,7 +60,26 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::update()
 {
+
 	playGameMusic();
+
+	// Checks if the ball has hit the paddle, a brick, or one of the sides.
+	ofRectangle ballRect;
+	paddleHitCheck(ballRect);
+	brickHitCheck(ballRect);
+	borderHitCheck();
+
+	// Checking if all bricks are gone, and if so mark the game as complete
+	if (manager.brickCount() >= static_cast<int>(bricks.size()) && !manager.isGameWon())
+	{
+		backgroundMusic.stop();
+		manager.winGame();
+		manager.pauseButton();
+		if (!manager.isMuted())
+		{
+			winSound.play();
+		}
+	}
 
 	if (manager.isMuted())
 	{
@@ -101,24 +120,6 @@ void ofApp::update()
 		if (!manager.isMuted())
 		{
 			backgroundMusic.setVolume((0.25));
-		}
-	}
-
-	// Checks if the ball has hit the paddle, a brick, or one of the sides.
-	ofRectangle ballRect;
-	paddleHitCheck(ballRect);
-	brickHitCheck(ballRect);
-	borderHitCheck();	
-
-	// Checking if all bricks are gone, and if so mark the game as complete
-	if(manager.brickCount() >= static_cast<int>(bricks.size()) && !manager.isGameWon())
-	{
-		backgroundMusic.stop();
-		manager.winGame();
-		manager.pauseButton();
-		if(!manager.isMuted())
-		{
-			winSound.play();
 		}
 	}
 }
