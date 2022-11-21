@@ -39,8 +39,8 @@ void Ball::move()
 
 void Ball::increaseSpeed()
 {
-	mSpeed.x += 25;
-	mSpeed.y += 25;
+	mSpeed.x += 15;
+	mSpeed.y += 15;
 }
 
 void Ball::reverseX()
