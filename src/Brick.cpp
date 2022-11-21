@@ -19,30 +19,46 @@ void Brick::draw()
 	}	
 }
 
-bool Brick::topBottomHit(const ofRectangle rect, const ofRectangle intersection)
+bool Brick::topBottomHit(const ofRectangle rect, const ofRectangle intersection, ofRectangle ballPrevious)
 {
+
+	if (!mHit && intersection.getWidth() == intersection.getHeight())
+	{
+		mHit = ballPrevious.getLeft() > mRectangle.getLeft() || ballPrevious.getRight() < mRectangle.getRight();
+		return ballPrevious.getLeft() > mRectangle.getLeft() || ballPrevious.getRight() < mRectangle.getRight();
+	}
+
 	if(!mHit)
 	{
-		mHit = rect.getTop() <= mRectangle.getBottom() && rect.getBottom() >= mRectangle.getTop()
+		mHit = intersection.getWidth() > intersection.getHeight();
+			/*rect.getTop() <= mRectangle.getBottom() && rect.getBottom() >= mRectangle.getTop()
 		&& (rect.getTop() > mRectangle.getTop() + mRectangle.height / 2 || rect.getBottom() < mRectangle.getTop() + mRectangle.height / 2)
-		&& intersection.getWidth() > intersection.getHeight();
+		&& intersection.getWidth() > intersection.getHeight();*/
 	}	
-	return rect.getTop() <= mRectangle.getBottom() && rect.getBottom() >= mRectangle.getTop()
+	return intersection.getWidth() > intersection.getHeight();
+	/*rect.getTop() <= mRectangle.getBottom() && rect.getBottom() >= mRectangle.getTop()
 		&& (rect.getTop() > mRectangle.getTop() + mRectangle.height / 2 || rect.getBottom() < mRectangle.getTop() + mRectangle.height / 2)
-		&& intersection.getWidth() > intersection.getHeight();
+		&& intersection.getWidth() > intersection.getHeight();*/
 }
 
-bool Brick::sideHit(const ofRectangle rect, const ofRectangle intersection)
+bool Brick::sideHit(const ofRectangle rect, const ofRectangle intersection, ofRectangle ballPrevious)
 {
+	if (!mHit && intersection.getWidth() == intersection.getHeight())
+	{
+		mHit = ballPrevious.getBottom() < mRectangle.getBottom() || ballPrevious.getTop() > mRectangle.getTop();
+		return ballPrevious.getLeft() < mRectangle.getLeft() || ballPrevious.getRight() > mRectangle.getRight();
+	}
 	if(!mHit)
 	{
-		mHit = rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight()
+		mHit = intersection.getWidth() < intersection.getHeight();
+			/*rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight()
 		&& (rect.getLeft() <= mRectangle.getLeft() || rect.getRight() >= mRectangle.getRight())
-			&& intersection.getWidth() <= intersection.getHeight();
+			&& intersection.getWidth() <= intersection.getHeight();*/
 	}	
-	return rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight()
+	return intersection.getWidth() < intersection.getHeight();
+	/*rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight()
 		&& (rect.getLeft() <= mRectangle.getLeft() || rect.getRight() >= mRectangle.getRight())
-		&& intersection.getWidth() <= intersection.getHeight();
+		&& intersection.getWidth() <= intersection.getHeight();*/
 }
 
 ofRectangle Brick::getRect()

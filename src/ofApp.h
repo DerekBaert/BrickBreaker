@@ -37,7 +37,7 @@ class ofApp : public ofBaseApp
 		 * \brief Checks if the ball has hit a brick.
 		 * \param ballRect ofRectangle of the ball.
 		 */
-		void brickHitCheck(ofRectangle ballRect);
+		void brickHitCheck(ofRectangle ballRect, ofRectangle ballPrevious);
 
 		/**
 		 * \brief Displays Title screen to canvas

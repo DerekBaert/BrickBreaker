@@ -65,8 +65,9 @@ void ofApp::update()
 
 	// Checks if the ball has hit the paddle, a brick, or one of the sides.
 	ofRectangle ballRect;
+	ofRectangle ballPrevious;
 	paddleHitCheck(ballRect);
-	brickHitCheck(ballRect);	
+	brickHitCheck(ballRect, ballPrevious);	
 	borderHitCheck();
 
 	// Checking if all bricks are gone, and if so mark the game as complete
@@ -367,9 +368,10 @@ void ofApp::paddleHitCheck(ofRectangle& ballRect)
 	}
 }
 
-void ofApp::brickHitCheck(ofRectangle ballRect)
+void ofApp::brickHitCheck(ofRectangle ballRect, ofRectangle ballPrevious)
 {
 	ballRect = ball.getRect();
+	ballPrevious = ball.getPrevious();
 
 	for (auto& brick : bricks)
 	{
@@ -379,12 +381,12 @@ void ofApp::brickHitCheck(ofRectangle ballRect)
 			ofRectangle intersection = brick.getRect().getIntersection(ballRect);
 			// If the brick registers the top or bottom as being hit, the ball reverse it's trajectory on the Y axis.
 			
-			if (brick.topBottomHit(ballRect, intersection))
+			if (brick.topBottomHit(ballRect, intersection, ballPrevious))
 			{
 				ball.reverseY();
 			}
 			// If the brick registers the side as being hit, the ball reverse it's trajectory on the X axis.
-			else if (brick.sideHit(ballRect, intersection))
+			else if (brick.sideHit(ballRect, intersection, ballPrevious))
 			{
 				ball.reverseX();
 			}

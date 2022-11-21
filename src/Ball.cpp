@@ -13,6 +13,7 @@ Ball::Ball(float size, Coordinates position) : mSize{ size }, mPosition{ positio
 
 void Ball::move()
 {
+	mPrevious = { mRectangle.getX(), mRectangle.getY(), mRectangle.getWidth(), mRectangle.getHeight() };
 	/// Resetting the ball to the border if it ends up past it, since ofClamp doesn't always seem to work
 	if(mRectangle.getLeft() > ofGetWidth() - mRectangle.getWidth())
 	{
@@ -115,5 +116,10 @@ void Ball::pushOut(ofRectangle intersection, ofRectangle rect)
 	{
 		mRectangle.setY(intersection.getTop() - mRectangle.getHeight());
 	}
+}
+
+ofRectangle Ball::getPrevious()
+{
+	return mPrevious;
 }
 

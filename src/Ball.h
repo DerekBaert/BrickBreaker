@@ -13,6 +13,7 @@ class Ball
 	Coordinates mSpeed;
 	Coordinates mOffset;
 	ofRectangle mRectangle;
+	ofRectangle mPrevious;
 public:
 	/**
 	 * \brief Constructs the ball with default parameters.
@@ -95,5 +96,11 @@ public:
 	 * \param rect ofRectangle representing intersection of paddle and ball
 	 */
 	void pushOut(ofRectangle intersection, ofRectangle rect);
+
+	/**
+	 * \brief The previous position of the ball object
+	 * \return The ofRectangle of the ball's previous position.
+	 */
+	ofRectangle getPrevious();
 
 };
