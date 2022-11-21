@@ -91,6 +91,7 @@ class ofApp : public ofBaseApp
 		 */
 		void mouseMoved(int x, int y);
 
+
 		const int WINDOW_HEIGHT{ ofGetHeight() };
 		const int WINDOW_WIDTH{ ofGetWidth() };
 		Ball ball;

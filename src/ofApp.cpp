@@ -66,7 +66,7 @@ void ofApp::update()
 	// Checks if the ball has hit the paddle, a brick, or one of the sides.
 	ofRectangle ballRect;
 	paddleHitCheck(ballRect);
-	brickHitCheck(ballRect);
+	brickHitCheck(ballRect);	
 	borderHitCheck();
 
 	// Checking if all bricks are gone, and if so mark the game as complete
@@ -181,16 +181,6 @@ void ofApp::normalMode()
 
 void ofApp::resetGame()
 {
-	//if(manager.isEasyMode())
-	//{
-	//	manager.reset();
-	//	manager.easyModeOn();
-	//}
-	//else
-	//{
-	//	manager.reset();
-	//}
-	
 	for(auto &brick : bricks)
 	{
 		brick.reset();
@@ -222,7 +212,7 @@ void ofApp::createBallAndPaddle()
 	paddle = { paddleSize, paddlePosition, paddleSpeed };
 
 	// Setting up the variables for creating the ball
-	float ballSize{ 7 };
+	float ballSize{ 10 };
 	Coordinates ballPosition{ paddlePosition.x + (paddleSize.width / 2) - (ballSize / 2),(paddlePosition.y - ballSize) - 1 };
 	ball = { ballSize,ballPosition };
 }

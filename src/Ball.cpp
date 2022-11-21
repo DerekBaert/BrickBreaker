@@ -13,6 +13,23 @@ Ball::Ball(float size, Coordinates position) : mSize{ size }, mPosition{ positio
 
 void Ball::move()
 {
+	/// Resetting the ball to the border if it ends up past it, since ofClamp doesn't always seem to work
+	if(mRectangle.getLeft() > ofGetWidth() - mRectangle.getWidth())
+	{
+		mRectangle.setX(ofGetWidth() - (mRectangle.getWidth() + 1));
+	}
+
+	if (mRectangle.getRight() < 0 + mRectangle.getWidth())
+	{
+		
+		mRectangle.setX(0 + 1);
+	}
+
+	if(mRectangle.getBottom() < 0 + mRectangle.getHeight())
+	{
+		mRectangle.setY(0 + 1);
+	}
+
 	ofClamp(mRectangle.x, 0, ofGetWidth() - mRectangle.getWidth());
 	ofClamp(mRectangle.y, 0, ofGetHeight());
 	mRectangle.setX(mRectangle.getX() + (mSpeed.x * ofGetLastFrameTime()) * mOffset.x);
@@ -37,8 +54,8 @@ void Ball::reverseY()
 
 void Ball::draw()
 {
-	ofSetColor(255);
-	ofDrawRectangle(mRectangle);
+	ofSetColor(200);
+	ofDrawRectRounded(mRectangle, 10);
 }
 
 void Ball::hitSide()

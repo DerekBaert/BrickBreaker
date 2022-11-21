@@ -38,11 +38,11 @@ bool Brick::sideHit(const ofRectangle rect, const ofRectangle intersection)
 	{
 		mHit = rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight()
 		&& (rect.getLeft() <= mRectangle.getLeft() || rect.getRight() >= mRectangle.getRight())
-			&& intersection.getWidth() < intersection.getHeight();
+			&& intersection.getWidth() <= intersection.getHeight();
 	}	
 	return rect.getRight() >= mRectangle.getLeft() && rect.getLeft() <= mRectangle.getRight()
 		&& (rect.getLeft() <= mRectangle.getLeft() || rect.getRight() >= mRectangle.getRight())
-		&& intersection.getWidth() < intersection.getHeight();
+		&& intersection.getWidth() <= intersection.getHeight();
 }
 
 ofRectangle Brick::getRect()
