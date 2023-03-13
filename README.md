@@ -1,6 +1,7 @@
 # Brick Breaker
 Recode of classic arcade game breakout made in openFrameworks.
 
-Use the arrow keys or the mouse to move the paddle. 
+**Left and Right Arrow keys or Mouse:** Move the paddle left and right
 
-Spacebar pauses the game, and music is muted with the M key.
+**Spacebar:**  Pauses the game
+**M Key:** Mute
